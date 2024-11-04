@@ -17,7 +17,7 @@ const Footer = () => {
               © 2024 OtakuHaven. All rights reserved.
             </p>
             <p className="text-sm text-gray-500 mt-2">
-              Your gateway to the anime world
+              Your portal to the world of anime, manga, and more!
             </p>
           </div>
 
@@ -78,7 +78,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="tel:+123456789"
+                  href="tel:+919011156314"
                   className="text-gray-400 hover:text-white transition"
                 >
                   +91 90111 56314
@@ -86,7 +86,7 @@ const Footer = () => {
               </li>
               <li>
                 <p className="text-gray-400">
-                  123 Anime St, Otaku City, OC 12345
+                123 Otaku District: Anime, Manga, Movies & TV Shows, OC 12345
                 </p>
               </li>
             </ul>
@@ -142,7 +142,10 @@ const Footer = () => {
         </div>
         {/* Design & Developed By Fusion Section */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">Design & Developed by 4adil-27</p>
+          <p className="text-sm text-gray-500">
+            Open the door to anime, manga, movies, and TV shows – a project by
+            4adil-27
+          </p>
         </div>
       </div>
     </footer>
