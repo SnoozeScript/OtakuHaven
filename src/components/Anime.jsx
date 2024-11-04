@@ -13,7 +13,7 @@ const Anime = () => {
   useEffect(() => {
     const fetchAnime = async () => {
       try {
-        const query = searchParams.get('search') || 'popular';
+        const query = searchParams.get('search') || 'One Piece';
         const genre = searchParams.get('genre') || '';
         const data = await searchAnime(query, genre);
         setAnimeList(data);
