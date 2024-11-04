@@ -5,8 +5,9 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Manga from './components/Manga';
 import AnimeDetails from './components/AnimeDetail';
-import Movies from './components/Movies';
-import TvShows from './components/TvShows';
+import TvShows from './components/TvShows'
+import Movies from './components/Movies'
+import Anime from './components/Anime';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/anime" element={<Anime />} />
           <Route path="/manga" element={<Manga />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/tvshows" element={<TvShows />} />
