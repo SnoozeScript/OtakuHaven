@@ -86,7 +86,7 @@ const Footer = () => {
               </li>
               <li>
                 <p className="text-gray-400">
-                123 Otaku District: Anime, Manga, Movies & TV Shows, OC 12345
+                  123 Otaku District: Anime, Manga, Movies & TV Shows, OC 12345
                 </p>
               </li>
             </ul>
@@ -143,8 +143,15 @@ const Footer = () => {
         {/* Design & Developed By Fusion Section */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-500">
-            Open the door to anime, manga, movies, and TV shows – a project by
-            4adil-27
+            Open the door to anime, manga, movies, and TV shows – a project by{" "}
+            <a
+              href="https://github.com/4adil-27" // Replace with your actual GitHub link
+              target="_blank" // Opens in a new tab
+              rel="noopener noreferrer" // Security measure
+              className="text-blue-500 hover:underline"
+            >
+              4adil-27
+            </a>
           </p>
         </div>
       </div>
