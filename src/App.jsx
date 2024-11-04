@@ -1,26 +1,25 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import AnimeDetail from './pages/AnimeDetail';
-import Home from './pages/Home';
-import Popular from './pages/Popular';
-import Genre from './pages/Genres';
-import Search from './pages/Search';
-// Uncomment when ready to implement
-// import AnimeList from './components/AnimeList';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import Manga from './components/Manga';
+import AnimeDetails from './components/AnimeDetail';
 
 const App = () => {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/anime/:id/:episode/:dub?/:skip?" element={<AnimeDetail />} />
-        <Route path="/popular" element={<Popular />} />
-        <Route path="/genre/:genre" element={<Genre />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
+      <div className="min-h-screen bg-gray-900 text-white">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/manga" element={<Manga />} />
+          <Route path="/anime/:id" element={<AnimeDetails />} />
+        </Routes>
+        <Footer />
+      </div>
     </Router>
   );
 };
 
-export default App;
+export default App

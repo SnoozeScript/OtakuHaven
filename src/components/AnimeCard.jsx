@@ -1,28 +1,29 @@
-import PropTypes from 'prop-types';
+
 import { Link } from 'react-router-dom';
 
-const AnimeCard = ({ id, title, image, description, rating }) => {
+const AnimeCard = ({ anime }) => {
   return (
-    <div className="card" style={{ width: '18rem' }}>
-      <Link to={`/anime/${id}/1`} className="text-decoration-none text-dark"> {/* Link to the AnimeDetail page */}
-        <img src={image} alt={title} className="card-img-top" />
-        <div className="card-body">
-          <h5 className="card-title">{title}</h5>
-          <p className="card-text">{description}</p>
-          {rating && <p className="card-text"><strong>Rating:</strong> {rating}</p>} {/* Optional rating */}
+    <Link to={`/anime/${anime.id}`}>
+      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:transform hover:scale-105 transition-transform duration-200">
+        <img
+          src={anime.coverImage.large}
+          alt={anime.title.romaji}
+          className="w-full h-64 object-cover"
+        />
+        <div className="p-4">
+          <h3 className="text-lg font-semibold text-white truncate">
+            {anime.title.romaji}
+          </h3>
+          <p className="text-gray-400 text-sm mt-2 line-clamp-2">
+            {anime.description}
+          </p>
+          <p className="text-purple-500 text-sm mt-2">
+            Episodes: {anime.episodes || "N/A"}
+          </p>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
-};
-
-// PropTypes validation
-AnimeCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  rating: PropTypes.string, // Optional rating prop
 };
 
 export default AnimeCard;
