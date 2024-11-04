@@ -29,7 +29,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="/"
+                  href="/anime"
                   className="text-gray-400 hover:text-white transition"
                 >
                   Anime
