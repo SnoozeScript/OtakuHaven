@@ -8,6 +8,7 @@ import AnimeDetails from './components/AnimeDetail';
 import TvShows from './components/TvShows'
 import Movies from './components/Movies'
 import Anime from './components/Anime';
+import MovieDetail from './components/MovieDetail';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/anime" element={<Anime />} />
           <Route path="/manga" element={<Manga />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/tvshows" element={<TvShows />} />
           <Route path="/anime/:id" element={<AnimeDetails />} />
         </Routes>
