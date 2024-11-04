@@ -9,11 +9,13 @@ import TvShows from './components/TvShows'
 import Movies from './components/Movies'
 import Anime from './components/Anime';
 import MovieDetail from './components/MovieDetail';
+import ScrollingMessage from './ScrollingMessage';
 
 const App = () => {
   return (
     <Router>
       <div className="min-h-screen bg-gray-900 text-white">
+      <ScrollingMessage />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />

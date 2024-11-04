@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import MovieCard from "./MovieCard";
+import { motion } from 'framer-motion';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -59,12 +60,39 @@ const Movies = () => {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-6">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        <div className="flex flex-col justify-center items-center h-64">
+          {/* Loading Spinner */}
+          <motion.div
+            className="animate-spin rounded-full h-12 w-12 border-b-4 border-purple-500"
+            initial={{ scale: 0.8, opacity: 0.5 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+          
+          {/* Loading Text */}
+          <motion.div
+            className="mt-4 text-purple-500 font-semibold text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          >
+            Loading, please wait...
+          </motion.div>
         </div>
       </div>
     );
   }
+  
 
   if (error) {
     return (
