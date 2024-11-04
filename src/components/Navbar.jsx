@@ -48,6 +48,8 @@ const Navbar = () => {
             <div className="flex space-x-6 ml-8">
               <Link to="/" className="hover:text-purple-500 transition-colors">Anime</Link>
               <Link to="/manga" className="hover:text-purple-500 transition-colors">Manga</Link>
+              <Link to="/movies" className="hover:text-purple-500 transition-colors">Movies</Link>
+              <Link to="/tvshows" className="hover:text-purple-500 transition-colors">TV Shows</Link>
             </div>
           </div>
 
@@ -112,6 +114,20 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Manga
+            </Link>
+            <Link
+              to="/movie"
+              className="px-4 py-2 hover:bg-gray-700 rounded-lg transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Movies
+            </Link>
+            <Link
+              to="/manga"
+              className="px-4 py-2 hover:bg-gray-700 rounded-lg transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              TV Shows
             </Link>
           </div>
         </div>
