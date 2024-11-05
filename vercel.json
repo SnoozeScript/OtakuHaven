@@ -1,0 +1,13 @@
+{
+    "rewrites": [
+      { "source": "/", "destination": "/index.html" },
+      { "source": "/anime", "destination": "/index.html" },
+      { "source": "/manga", "destination": "/index.html" },
+      { "source": "/movies", "destination": "/index.html" },
+      { "source": "/movie/:id", "destination": "/index.html" },
+      { "source": "/tvshows", "destination": "/index.html" },
+      { "source": "/anime/:id", "destination": "/index.html" },
+      { "source": "/:path*", "destination": "/index.html" }
+    ]
+  }
+  
