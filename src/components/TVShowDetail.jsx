@@ -63,6 +63,18 @@ const TVShowDetail = () => {
     navigate(`/tv-show/${id}/${currentSeason}/${episode}`);
   };
 
+  const handlePrevEpisode = () => {
+    if (currentEpisode > 1) {
+      handleEpisodeChange(currentEpisode - 1);
+    }
+  };
+
+  const handleNextEpisode = () => {
+    if (currentEpisode < tvShow.season.episodes.length) {
+      handleEpisodeChange(currentEpisode + 1);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2">
@@ -75,29 +87,46 @@ const TVShowDetail = () => {
           ></iframe>
         </div>
 
-        {/* Season Selector */}
         <div className="mt-4">
-          <h2 className="text-2xl font-bold mb-4">Season</h2>
-          <div className="grid grid-cols-8 gap-2">
-            {[...Array(tvShow.number_of_seasons)].map((_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handleSeasonChange(index + 1)}
-                className={`p-2 rounded ${
-                  currentSeason === index + 1
-                    ? "bg-purple-500"
-                    : "bg-gray-700 hover:bg-gray-600"
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
+          <div className="flex items-center gap-2 mb-4">
+            <button
+              onClick={handlePrevEpisode}
+              disabled={currentEpisode === 1}
+              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 disabled:bg-gray-500"
+            >
+              Prev
+            </button>
+            <span className="px-4 py-2 bg-gray-700 rounded text-white">
+              Season {currentSeason}: Episode {currentEpisode}
+            </span>
+            <button
+              onClick={handleNextEpisode}
+              disabled={currentEpisode === tvShow.season.episodes.length}
+              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 disabled:bg-gray-500"
+            >
+              Next
+            </button>
           </div>
+
+          {/* Season Selector */}
+          <h2 className="text-2xl font-bold mb-4">Season</h2>
+          <select
+            value={currentSeason}
+            onChange={(e) => handleSeasonChange(Number(e.target.value))}
+            className="w-full p-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+          >
+            {[...Array(tvShow.number_of_seasons)].map((_, index) => (
+              <option key={index + 1} value={index + 1}>
+                Season {index + 1}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Episode Selector */}
         <div className="mt-4">
           <h2 className="text-2xl font-bold mb-4">Episodes</h2>
+
           <div className="grid grid-cols-8 gap-2">
             {tvShow.season.episodes.map((episode) => (
               <button

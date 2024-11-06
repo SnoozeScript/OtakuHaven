@@ -8,6 +8,7 @@ const AnimeDetails = () => {
   const [currentEpisode, setCurrentEpisode] = useState(1);
   const [isDub, setIsDub] = useState(false);
   const [autoSkip, setAutoSkip] = useState(false);
+  const [videoUrl, setVideoUrl] = useState('');
 
   useEffect(() => {
     const fetchAnimeDetails = async () => {
@@ -45,6 +46,17 @@ const AnimeDetails = () => {
     fetchAnimeDetails();
   }, [id]);
 
+  useEffect(() => {
+    // Update video URL based on current episode, dub, and auto-skip settings
+    setVideoUrl(`https://vidsrc.icu/embed/anime/${id}/${currentEpisode}/${isDub ? '1' : '0'}${autoSkip ? '/1' : ''}`);
+  }, [id, currentEpisode, isDub, autoSkip]);
+
+  const handleEpisodeChange = (newEpisode) => {
+    if (newEpisode >= 1 && newEpisode <= (anime?.episodes || 1)) {
+      setCurrentEpisode(newEpisode);
+    }
+  };
+
   if (!anime) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
@@ -52,8 +64,6 @@ const AnimeDetails = () => {
       </div>
     );
   }
-
-  const videoUrl = `https://vidsrc.icu/embed/anime/${id}/${currentEpisode}/${isDub ? '1' : '0'}${autoSkip ? '/1' : ''}`;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -67,20 +77,34 @@ const AnimeDetails = () => {
             ></iframe>
           </div>
           
-          <div className="mt-4 flex flex-wrap gap-4">
+          <div className="mt-4 flex flex-wrap gap-4 items-center">
+            <button
+              onClick={() => handleEpisodeChange(currentEpisode - 1)}
+              disabled={currentEpisode === 1}
+              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 disabled:bg-gray-500"
+            >
+              Prev
+            </button>
+
+            <span className="text-lg font-semibold">Episode {currentEpisode}</span>
+
+            <button
+              onClick={() => handleEpisodeChange(currentEpisode + 1)}
+              disabled={currentEpisode === anime.episodes}
+              className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 disabled:bg-gray-500"
+            >
+              Next
+            </button>
+
             <button
               onClick={() => setIsDub(!isDub)}
-              className={`px-4 py-2 rounded ${
-                isDub ? 'bg-purple-500' : 'bg-gray-700'
-              }`}
+              className={`px-4 py-2 rounded ${isDub ? 'bg-purple-500' : 'bg-gray-700'}`}
             >
               {isDub ? 'DUB' : 'SUB'}
             </button>
             <button
               onClick={() => setAutoSkip(!autoSkip)}
-              className={`px-4 py-2 rounded ${
-                autoSkip ? 'bg-purple-500' : 'bg-gray-700'
-              }`}
+              className={`px-4 py-2 rounded ${autoSkip ? 'bg-purple-500' : 'bg-gray-700'}`}
             >
               Auto Skip {autoSkip ? 'ON' : 'OFF'}
             </button>
