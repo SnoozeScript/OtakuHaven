@@ -31,7 +31,7 @@ const MovieDetail = () => {
   }
 
   // Using the exact endpoint format
-  const videoUrl = `https://vidsrc.in/embed/movie/${id}`;
+  const videoUrl = `https://vidsrc.icu/embed/movie/${id}`;
 
   const formatRuntime = (minutes) => {
     const hours = Math.floor(minutes / 60);

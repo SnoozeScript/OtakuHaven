@@ -1,29 +1,32 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Search, Menu, X } from "lucide-react";
 
 const Navbar = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [category, setCategory] = useState('anime'); // Default category
+  const [category, setCategory] = useState("anime"); // Default category
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const path = location.pathname.split('/')[1];
-    if (['anime', 'manga', 'movies', 'tvshows'].includes(path)) {
-      setCategory(path);
-    } else {
-      setCategory('anime');
-    }
+    const pathSegments = location.pathname.split("/").filter(Boolean);
+
+    if (pathSegments.includes("anime")) setCategory("anime");
+    else if (pathSegments.includes("manga")) setCategory("manga");
+    else if (pathSegments.includes("movies") || pathSegments[0] === "movie")
+      setCategory("movies");
+    else if (pathSegments.includes("tvshows") || pathSegments[0] === "tv-show")
+      setCategory("tvshows");
+    else setCategory("anime"); // Default to anime if no match found
   }, [location.pathname]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/${category}?search=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery(''); // Clear search input after submitting
+      setSearchQuery(""); // Clear search input after submitting
     }
   };
 
@@ -33,7 +36,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 z-10">
-            <span className="text-xl md:text-2xl font-bold text-purple-500">OtakuHaven</span>
+            <span className="text-xl md:text-2xl font-bold text-purple-500">
+              OtakuHaven
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -56,10 +61,30 @@ const Navbar = () => {
 
             {/* Desktop Menu Links */}
             <div className="flex space-x-6 ml-8">
-              <Link to="/anime" className="hover:text-purple-500 transition-colors">Anime</Link>
-              <Link to="/manga" className="hover:text-purple-500 transition-colors">Manga</Link>
-              <Link to="/movies" className="hover:text-purple-500 transition-colors">Movies</Link>
-              <Link to="/tvshows" className="hover:text-purple-500 transition-colors">TV Shows</Link>
+              <Link
+                to="/anime"
+                className="hover:text-purple-500 transition-colors"
+              >
+                Anime
+              </Link>
+              <Link
+                to="/manga"
+                className="hover:text-purple-500 transition-colors"
+              >
+                Manga
+              </Link>
+              <Link
+                to="/movies"
+                className="hover:text-purple-500 transition-colors"
+              >
+                Movies
+              </Link>
+              <Link
+                to="/tvshows"
+                className="hover:text-purple-500 transition-colors"
+              >
+                TV Shows
+              </Link>
             </div>
           </div>
 
@@ -87,7 +112,7 @@ const Navbar = () => {
         {/* Mobile Search Bar */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isSearchOpen ? 'max-h-24 pb-4' : 'max-h-0'
+            isSearchOpen ? "max-h-24 pb-4" : "max-h-0"
           }`}
         >
           <form onSubmit={handleSearch} className="relative">
@@ -107,7 +132,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? 'max-h-50' : 'max-h-0'
+            isMenuOpen ? "max-h-50" : "max-h-0"
           }`}
         >
           <div className="flex flex-col space-y-4 pb-4">
