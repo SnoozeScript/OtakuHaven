@@ -10,7 +10,7 @@ import Movies from './components/Movies'
 import Anime from './components/Anime';
 import MovieDetail from './components/MovieDetail';
 import ScrollingMessage from './ScrollingMessage';
-import TVShowDetail from './components/TvShowDetail';
+import TVShowDetail from './components/TVShowDetail';
 
 const App = () => {
   return (
