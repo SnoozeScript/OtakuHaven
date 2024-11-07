@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Branding Section */}
           <div className="mb-6 md:mb-0 ">
             <p className="text-gray-400">
-              © 2024 OtakuHaven. All rights reserved.
+              © 2024 OtakuHaven.
             </p>
             <p className="text-sm text-gray-500 mt-2">
               Your portal to the world of anime, manga, and more!
