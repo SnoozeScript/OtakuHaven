@@ -12,6 +12,7 @@ import MovieDetail from './components/MovieDetail';
 import ScrollingMessage from './ScrollingMessage';
 import TVShowDetail from './components/TVShowDetail';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 const App = () => {
   return (
@@ -30,7 +31,8 @@ const App = () => {
           <Route path="/tv-show/:id/:season?/:episode?" element={<TVShowDetail />} />
         </Routes>
         <Footer />
-        <SpeedInsights />  {/* Add Speed Insights component here */}
+        <SpeedInsights /> 
+        <Analytics />
       </div>
     </Router>
   );
