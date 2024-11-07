@@ -25,11 +25,10 @@ const Home = () => {
         transition={{ duration: 1.5, ease: "easeInOut" }}
         className="text-xl text-gray-300 mb-12 text-center max-w-2xl"
       >
-        Welcome to OtakuHaven, where fandoms come alive! Lose yourself in our
-        universe filled with anime, manga, movies, and TV shows. Here, we
-        connect passionate fans, provide unique recommendations, and spark
-        engaging conversations. Ready to find your next favorite story? Join us,
-        and let the adventure begin!
+        Welcome to OtakuHaven, where fandoms come alive—completely free, no
+        account needed! Dive into our universe of anime, manga, movies, and TV
+        shows. Discover unique recommendations and explore captivating stories.
+        Ready to find your next favorite? Join us and let the adventure begin!
       </motion.p>
 
       {/* Section Cards with Enhanced Animations */}

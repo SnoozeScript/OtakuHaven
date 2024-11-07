@@ -6,12 +6,12 @@ import AnimeCard from "./AnimeCard";
 const Anime = () => {
   const [animeList, setAnimeList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchAnime = async () => {
       try {
-        const query = searchParams.get("search") || "Popular";
+        const query = searchParams.get("search") || "Naruto"; // Set default to "Naruto"
         const genre = searchParams.get("genre") || "";
         const data = await searchAnime(query, genre);
         setAnimeList(data);
@@ -32,10 +32,12 @@ const Anime = () => {
     );
   }
 
-  // Get search query and genre for the message
-  const query = searchParams.get("search") || "recent";
+  // Display message with consistent "search" parameter key
+  const query = searchParams.get("search") || "Naruto";
   const genre = searchParams.get("genre") || "";
-  const displayMessage = genre ? `Results for "${query}" in "${genre}" genre:` : `Results for "${query}"`;
+  const displayMessage = genre
+    ? `Results for "${query}" in "${genre}" genre:`
+    : `Results for "${query}"`;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

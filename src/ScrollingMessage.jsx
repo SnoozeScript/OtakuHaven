@@ -8,14 +8,12 @@ function ScrollingMessage() {
         animate={{ x: [0, -500] }} // Adjust -500 or higher to change scroll length
         transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
       >
-        <span>
-          Anime, Manga, are being updated! More awesomeness is coming your way
-        </span>
-        <span>TV Shows are available now</span>
-        <span>
-          Anime, Manga, are being updated! More awesomeness is coming your way
-        </span>
-        <span>TV Shows are available now</span>
+        <span>Anime, Manga, are being updated!</span>
+        <span>Movies & TV Shows are available now</span>
+        <span>Anime, Manga, are being updated!</span>
+        <span>Movies & TV Shows are available now</span>
+        <span>Anime, Manga, are being updated!</span>
+        <span>Movies & TV Shows are available now</span>
       </motion.div>
     </div>
   );
