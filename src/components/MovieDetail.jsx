@@ -40,10 +40,10 @@ const MovieDetail = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -56,6 +56,7 @@ const MovieDetail = () => {
             <iframe
               src={videoUrl}
               className="absolute top-0 left-0 w-full h-full"
+              allow="autoplay; encrypted-media"
               allowFullScreen
               title={movie.title}
             ></iframe>
@@ -78,12 +79,12 @@ const MovieDetail = () => {
               e.target.src = "/api/placeholder/300/450";
             }}
           />
-          
+
           <h1 className="text-2xl font-bold mb-2">{movie.title}</h1>
           {movie.tagline && (
             <p className="text-gray-400 italic mb-4">{movie.tagline}</p>
           )}
-          
+
           <div className="space-y-3 text-gray-300">
             <div className="flex items-center justify-between">
               <span className="font-semibold">Rating:</span>
@@ -92,19 +93,19 @@ const MovieDetail = () => {
                 {movie.vote_average?.toFixed(1)}/10
               </span>
             </div>
-            
+
             <div className="flex items-center justify-between">
               <span className="font-semibold">Release Date:</span>
               <span>{formatDate(movie.release_date)}</span>
             </div>
-            
+
             {movie.runtime && (
               <div className="flex items-center justify-between">
                 <span className="font-semibold">Runtime:</span>
                 <span>{formatRuntime(movie.runtime)}</span>
               </div>
             )}
-            
+
             {movie.status && (
               <div className="flex items-center justify-between">
                 <span className="font-semibold">Status:</span>
@@ -138,16 +139,19 @@ const MovieDetail = () => {
           )}
 
           {/* Production Companies */}
-          {movie.production_companies && movie.production_companies.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-3">Production Companies</h3>
-              <div className="space-y-2 text-gray-300">
-                {movie.production_companies.map((company) => (
-                  <div key={company.id}>{company.name}</div>
-                ))}
+          {movie.production_companies &&
+            movie.production_companies.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold mb-3">
+                  Production Companies
+                </h3>
+                <div className="space-y-2 text-gray-300">
+                  {movie.production_companies.map((company) => (
+                    <div key={company.id}>{company.name}</div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </div>
