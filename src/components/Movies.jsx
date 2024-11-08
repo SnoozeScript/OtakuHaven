@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import MovieCard from "./MovieCard";
 import { motion } from "framer-motion";
-import { Loader2,Filter, Clock, TrendingUp } from "lucide-react";
+import { Loader2, Filter, Clock, TrendingUp } from "lucide-react";
 
 const GENRES = [
   { id: 28, name: "Action" },
@@ -18,8 +18,6 @@ const TIME_WINDOWS = {
   week: "This Week",
 };
 
-// Updated platform configurations with trending options
-// Updated platform configurations with additional streaming services
 const PLATFORMS = {
   trending: {
     name: "Trending",
@@ -88,7 +86,6 @@ const Movies = () => {
         const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
         if (query) {
-          // Search endpoint
           url = `${baseUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
             query
           )}`;
@@ -96,22 +93,17 @@ const Movies = () => {
           const platform = PLATFORMS[activeSection];
 
           if (platform.endpoint === "trending") {
-            // Trending movies endpoint
             url = `${baseUrl}/trending/movie/${timeWindow}?api_key=${apiKey}`;
           } else if (platform.endpoint === "discover") {
-            // Streaming platform filtering using discover endpoint
             url = `${baseUrl}/discover/movie?api_key=${apiKey}&with_watch_providers=${platform.providerId}&watch_region=US`;
           } else {
-            // Regular endpoints (popular, top_rated)
             url = `${baseUrl}/movie/${platform.endpoint}?api_key=${apiKey}`;
           }
 
-          // Add genre filter if selected (except for trending)
           if (selectedGenre && platform.endpoint !== "trending") {
             url += `&with_genres=${selectedGenre}`;
           }
 
-          // Additional parameters for better results
           if (platform.endpoint === "discover") {
             url += "&sort_by=popularity.desc&include_adult=false&page=1";
           }
@@ -137,7 +129,7 @@ const Movies = () => {
   const handleSectionChange = (section) => {
     setActiveSection(section);
     if (section === "trending") {
-      setSelectedGenre(""); // Reset genre for trending
+      setSelectedGenre("");
     }
     setSearchParams({});
   };
@@ -169,42 +161,33 @@ const Movies = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      {/* Navigation and Filters */}
-      <div className="mb-8 space-y-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          {/* Platform Tabs */}
-          <div className="w-full sm:w-auto">
-            <div className="inline-flex flex-wrap rounded-lg bg-gray-800 p-1 w-full sm:w-auto space-x-1 sm:space-x-0">
-              {Object.entries(PLATFORMS).map(([key, platform]) => (
-                <button
-                  key={key}
-                  onClick={() => handleSectionChange(key)}
-                  className={`
-                    px-4 py-2 text-sm rounded-md transition-colors duration-200
-                    ${
-                      activeSection === key
-                        ? "bg-purple-500 text-white"
-                        : "text-gray-400 hover:text-white hover:bg-gray-700"
-                    }
-                    flex-1 sm:flex-none whitespace-nowrap
-                  `}
-                >
-                  {platform.name}
-                </button>
-              ))}
-            </div>
+    <div className="container mx-auto px-2 sm:px-4 py-4 md:py-6">
+      <div className="mb-6 space-y-4">
+        <div className="flex flex-wrap gap-4 items-center">
+          <div className="w-full md:w-auto flex flex-wrap gap-2">
+            {Object.entries(PLATFORMS).map(([key, platform]) => (
+              <button
+                key={key}
+                onClick={() => handleSectionChange(key)}
+                className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                  activeSection === key
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-700 text-gray-300"
+                } flex-1 sm:flex-none`}
+              >
+                {platform.name}
+              </button>
+            ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            {/* Time Window Dropdown (only for trending) */}
+          <div className="flex gap-2 w-full md:w-auto">
             {PLATFORMS[activeSection].needsTimeWindow && (
-              <div className="relative flex-1 sm:flex-initial">
+              <div className="relative w-full md:w-auto">
                 <button
                   onClick={() =>
                     setIsTimeWindowDropdownOpen(!isTimeWindowDropdownOpen)
                   }
-                  className="w-full px-4 py-2 text-left bg-gray-800 rounded-lg flex items-center justify-between hover:bg-gray-700 transition-colors"
+                  className="w-full px-3 py-1 bg-gray-700 rounded-lg flex items-center justify-between transition-colors"
                 >
                   <span className="text-gray-300 flex items-center">
                     <Clock className="w-4 h-4 mr-2" />
@@ -214,57 +197,53 @@ const Movies = () => {
                 </button>
 
                 {isTimeWindowDropdownOpen && (
-                  <div className="absolute z-10 w-full mt-2 bg-gray-800 rounded-lg shadow-xl border border-gray-700">
-                    <div className="py-1">
-                      {Object.entries(TIME_WINDOWS).map(([key, label]) => (
-                        <button
-                          key={key}
-                          onClick={() => handleTimeWindowChange(key)}
-                          className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
+                  <div className="absolute z-10 mt-2 w-full bg-gray-800 rounded-lg shadow-xl">
+                    {Object.entries(TIME_WINDOWS).map(([key, label]) => (
+                      <button
+                        key={key}
+                        onClick={() => handleTimeWindowChange(key)}
+                        className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
+                      >
+                        {label}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
             )}
 
-            {/* Genre Dropdown (hidden for trending) */}
             {!PLATFORMS[activeSection].needsTimeWindow && (
-              <div className="relative flex-1 sm:flex-initial">
+              <div className="relative w-full md:w-auto">
                 <button
                   onClick={() => setIsGenreDropdownOpen(!isGenreDropdownOpen)}
-                  className="w-full px-4 py-2 text-left bg-gray-800 rounded-lg flex items-center justify-between hover:bg-gray-700 transition-colors"
+                  className="w-full px-3 py-1 bg-gray-700 rounded-lg flex items-center justify-between transition-colors"
                 >
                   <span className="text-gray-300">
                     {selectedGenre
-                      ? GENRES.find((g) => g.id.toString() === selectedGenre)?.name
+                      ? GENRES.find((g) => g.id.toString() === selectedGenre)
+                          ?.name
                       : "Select Genre"}
                   </span>
                   <Filter className="w-4 h-4 text-gray-400" />
                 </button>
 
                 {isGenreDropdownOpen && (
-                  <div className="absolute z-10 w-full mt-2 bg-gray-800 rounded-lg shadow-xl border border-gray-700">
-                    <div className="py-1">
+                  <div className="absolute z-10 mt-2 w-full bg-gray-800 rounded-lg shadow-xl">
+                    <button
+                      onClick={() => handleGenreChange("")}
+                      className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
+                    >
+                      All Genres
+                    </button>
+                    {GENRES.map((genre) => (
                       <button
-                        onClick={() => handleGenreChange("")}
+                        key={genre.id}
+                        onClick={() => handleGenreChange(genre.id.toString())}
                         className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
                       >
-                        All Genres
+                        {genre.name}
                       </button>
-                      {GENRES.map((genre) => (
-                        <button
-                          key={genre.id}
-                          onClick={() => handleGenreChange(genre.id.toString())}
-                          className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
-                        >
-                          {genre.name}
-                        </button>
-                      ))}
-                    </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -273,26 +252,26 @@ const Movies = () => {
         </div>
       </div>
 
-      {/* Section Title */}
-      <h1 className="text-3xl font-bold mb-6 text-white">
+      <h1 className="text-2xl font-bold mb-4 text-white">
         {searchQuery
           ? `Search Results for "${searchQuery}"`
           : `${PLATFORMS[activeSection].name}${
               activeSection === "trending"
                 ? ` ${TIME_WINDOWS[timeWindow]}`
                 : selectedGenre
-                ? ` - ${GENRES.find((g) => g.id.toString() === selectedGenre)?.name}`
+                ? ` - ${
+                    GENRES.find((g) => g.id.toString() === selectedGenre)?.name
+                  }`
                 : ""
             }`}
       </h1>
 
-      {/* Movie Grid */}
       {movies.length > 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
         >
           {movies.map((movie) => (
             <motion.div
