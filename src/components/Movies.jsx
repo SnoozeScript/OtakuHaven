@@ -175,7 +175,7 @@ const Movies = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           {/* Platform Tabs */}
           <div className="w-full sm:w-auto">
-            <div className="inline-flex rounded-lg bg-gray-800 p-1 w-full sm:w-auto">
+            <div className="inline-flex flex-wrap rounded-lg bg-gray-800 p-1 w-full sm:w-auto space-x-1 sm:space-x-0">
               {Object.entries(PLATFORMS).map(([key, platform]) => (
                 <button
                   key={key}
@@ -196,7 +196,7 @@ const Movies = () => {
             </div>
           </div>
 
-          <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             {/* Time Window Dropdown (only for trending) */}
             {PLATFORMS[activeSection].needsTimeWindow && (
               <div className="relative flex-1 sm:flex-initial">
@@ -240,8 +240,7 @@ const Movies = () => {
                 >
                   <span className="text-gray-300">
                     {selectedGenre
-                      ? GENRES.find((g) => g.id.toString() === selectedGenre)
-                          ?.name
+                      ? GENRES.find((g) => g.id.toString() === selectedGenre)?.name
                       : "Select Genre"}
                   </span>
                   <Filter className="w-4 h-4 text-gray-400" />
@@ -282,9 +281,7 @@ const Movies = () => {
               activeSection === "trending"
                 ? ` ${TIME_WINDOWS[timeWindow]}`
                 : selectedGenre
-                ? ` - ${
-                    GENRES.find((g) => g.id.toString() === selectedGenre)?.name
-                  }`
+                ? ` - ${GENRES.find((g) => g.id.toString() === selectedGenre)?.name}`
                 : ""
             }`}
       </h1>
@@ -295,7 +292,7 @@ const Movies = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"
         >
           {movies.map((movie) => (
             <motion.div
