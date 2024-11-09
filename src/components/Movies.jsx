@@ -271,7 +271,7 @@ const Movies = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-5 md:gap-4 lg:gap-4"
         >
           {movies.map((movie) => (
             <motion.div
@@ -279,6 +279,7 @@ const Movies = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
+              className="flex flex-col items-center p-2"
             >
               <MovieCard movie={movie} />
             </motion.div>
