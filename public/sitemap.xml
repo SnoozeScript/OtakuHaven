@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created for Otaku Haven -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/anime</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/manga</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/movies</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/tvshows</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/trending</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://otaku-haven-alpha.vercel.app/discover</loc>
+    <lastmod>2024-11-12T00:02:04+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

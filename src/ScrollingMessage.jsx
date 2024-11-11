@@ -10,10 +10,28 @@ function ScrollingMessage() {
       >
         <span>Anime, Manga, are being updated!</span>
         <span>Movies & TV Shows are available now</span>
+        <span>
+          {" "}
+          If Movies/TV Shows aren't loading, use{" "}
+          <a
+            href="https://one.one.one.one"
+            className="underline text-brown-400"
+          >
+            Cloudflare DNS
+          </a>
+        </span>
         <span>Anime, Manga, are being updated!</span>
         <span>Movies & TV Shows are available now</span>
-        <span>Anime, Manga, are being updated!</span>
-        <span>Movies & TV Shows are available now</span>
+        <span>
+          {" "}
+          If Movies/TV Shows aren't loading, use{" "}
+          <a
+            href="https://one.one.one.one"
+            className="underline text-brown-400"
+          >
+            Cloudflare DNS
+          </a>
+        </span>
       </motion.div>
     </div>
   );

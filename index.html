@@ -1,15 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/icons8-o-50.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OtakuHaven</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="OtakuHaven - Your ultimate destination for all things anime and manga! Explore, connect, and indulge in the otaku culture."
+    />
+    <meta
+      name="keywords"
+      content="anime, manga, otaku, OtakuHaven, anime streaming, manga reviews, anime news"
+    />
+    <meta name="author" content="OtakuHaven Team" />
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="OtakuHaven" />
+    <meta
+      property="og:description"
+      content="Your ultimate destination for all things anime and manga!"
+    />
+    <meta
+      property="og:image"
+      content="https://otaku-haven-alpha.vercel.app/icons8-o-50.png"
+    />
+    <meta property="og:url" content="https://otaku-haven-alpha.vercel.app" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OtakuHaven" />
+    <meta
+      name="twitter:description"
+      content="Your ultimate destination for all things anime and manga!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://otaku-haven-alpha.vercel.app/icons8-o-50.png"
+    />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "OtakuHaven",
+        "url": "https://otaku-haven-alpha.vercel.app",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://otaku-haven-alpha.vercel.app/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-
-

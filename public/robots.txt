@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://otaku-haven-alpha.vercel.app/sitemap.xml
