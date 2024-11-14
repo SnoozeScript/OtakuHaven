@@ -1,13 +1,14 @@
 Otaku-Haven 🎌
 
-Welcome to Otaku Haven, your one-stop platform for all things anime and manga! This project is designed to provide a seamless and engaging experience for anime enthusiasts, featuring community-driven content, personalized recommendations, and much more.
+Welcome to Otaku Haven, your one-stop platform for all things anime,manga movies and tvshows! This project is designed to provide a seamless and engaging experience for anime enthusiasts, featuring community-driven content, personalized recommendations, and much more.
 
 🌐 Live Demo  
 Check out the live version of Otaku Haven: [Otaku Haven](https://otaku-haven-alpha.vercel.app)
 
 🚀 Features  
 
-- Anime & Manga Browsing: Discover new series and revisit old favorites.
+- Anime & Manga
+- Movies & TVShows with Trendings and platforms  
 - Responsive Design: Accessible on all devices, from desktops to smartphones.
 
 🛠️ Tech Stack  
