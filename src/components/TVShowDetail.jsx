@@ -7,6 +7,7 @@ const TVShowDetail = () => {
   const [tvShow, setTVShow] = useState(null);
   const [currentSeason, setCurrentSeason] = useState(1);
   const [currentEpisode, setCurrentEpisode] = useState(1);
+  const [selectedEndpoint, setSelectedEndpoint] = useState("vidsrc"); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +51,12 @@ const TVShowDetail = () => {
     );
   }
 
-  const videoUrl = `https://vidsrc.icu/embed/tv/${id}/${currentSeason}/${currentEpisode}`;
+  const endpoints = {
+    vidsrc: `https://vidsrc.icu/embed/tv/${id}/${currentSeason}/${currentEpisode}`,
+    multi: `https://vidbinge.dev/embed/tv/${id}/${currentSeason}/${currentEpisode}`, 
+  };
+
+  const videoUrl = endpoints[selectedEndpoint];
 
   const handleSeasonChange = (season) => {
     setCurrentSeason(season);
@@ -105,6 +111,28 @@ const TVShowDetail = () => {
               className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 disabled:bg-gray-500"
             >
               Next
+            </button>
+
+            {/* Endpoint Selector Buttons */}
+            <button
+              onClick={() => setSelectedEndpoint("vidsrc")}
+              className={`px-4 py-2 rounded ${
+                selectedEndpoint === "vidsrc"
+                  ? "bg-purple-500"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              VidSrc
+            </button>
+            <button
+              onClick={() => setSelectedEndpoint("multi")}
+              className={`px-4 py-2 rounded ${
+                selectedEndpoint === "multi"
+                  ? "bg-purple-500"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              Multi
             </button>
           </div>
 

@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [selectedEndpoint, setSelectedEndpoint] = useState("vidsrc");
 
   useEffect(() => {
     const fetchMovieDetail = async () => {
@@ -31,7 +32,13 @@ const MovieDetail = () => {
   }
 
   // Using the exact endpoint format
-  const videoUrl = `https://vidsrc.icu/embed/movie/${id}`;
+  //const videoUrl = `https://vidsrc.icu/embed/movie/${id}`;
+  const endpoints = {
+    vidsrc: `https://vidsrc.icu/embed/movie/${id}`,
+    multi: `https://vidbinge.dev/embed/movie/${id}`,
+  };
+
+  const videoUrl = endpoints[selectedEndpoint];
 
   const formatRuntime = (minutes) => {
     const hours = Math.floor(minutes / 60);
@@ -61,7 +68,31 @@ const MovieDetail = () => {
               title={movie.title}
             ></iframe>
           </div>
-
+          <div className="mt-4">
+            <div className="flex items-center gap-2 mb-4">
+              {/* Endpoint Selector Buttons */}
+              <button
+                onClick={() => setSelectedEndpoint("vidsrc")}
+                className={`px-4 py-2 rounded ${
+                  selectedEndpoint === "vidsrc"
+                    ? "bg-purple-500"
+                    : "bg-gray-700 hover:bg-gray-600"
+                }`}
+              >
+                VidSrc
+              </button>
+              <button
+                onClick={() => setSelectedEndpoint("multi")}
+                className={`px-4 py-2 rounded ${
+                  selectedEndpoint === "multi"
+                    ? "bg-purple-500"
+                    : "bg-gray-700 hover:bg-gray-600"
+                }`}
+              >
+                Multi
+              </button>
+            </div>
+          </div>
           {/* Movie Overview */}
           <div className="mt-6 bg-gray-800 rounded-lg p-6">
             <h2 className="text-2xl font-bold mb-4">Overview</h2>
