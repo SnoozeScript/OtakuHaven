@@ -2,12 +2,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from './components/Home';
-import Manga from './components/Manga';
+import Home from './pages/Home';
+import Manga from './pages/Manga';
 import AnimeDetails from './components/AnimeDetail';
-import TvShows from './components/TvShows'
-import Movies from './components/Movies'
-import Anime from './components/Anime';
+import TvShows from './pages/TvShows'
+import Movies from './pages/Movies'
+import Anime from './pages/Anime';
 import MovieDetail from './components/MovieDetail';
 import ScrollingMessage from './ScrollingMessage';
 import TVShowDetail from './components/TVShowDetail';

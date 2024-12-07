@@ -1,4 +1,4 @@
-// src/api.js
+
 import { GraphQLClient, gql } from 'graphql-request';
 
 const ANILIST_API = 'https://graphql.anilist.co';

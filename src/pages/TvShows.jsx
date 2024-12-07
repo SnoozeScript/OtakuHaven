@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import TVShowCard from "./TVShowCard";
+import TVShowCard from "../components/TVShowCard";
 import { motion } from "framer-motion";
 import { Loader2, Filter, Clock, TrendingUp } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import MovieCard from "./MovieCard";
+import MovieCard from "../components/MovieCard";
 import { motion } from "framer-motion";
 import { Loader2, Filter, Clock, TrendingUp } from "lucide-react";
 

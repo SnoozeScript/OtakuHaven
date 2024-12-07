@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { searchAnime } from "../api";
-import AnimeCard from "./AnimeCard";
+import AnimeCard from "../components/AnimeCard";
 
 const Anime = () => {
   const [animeList, setAnimeList] = useState([]);
