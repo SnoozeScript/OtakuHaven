@@ -37,7 +37,7 @@ const MovieDetail = () => {
   //const videoUrl = `https://vidsrc.icu/embed/movie/${id}`;
   const endpoints = {
     vidsrc: `https://vidsrc.icu/embed/movie/${id}`,
-    multi: `https://vidbinge.dev/embed/movie/${id}`,
+    multi: `https://player.autoembed.cc/embed/movie/${id}`,
   };
 
   const videoUrl = endpoints[selectedEndpoint];

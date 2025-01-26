@@ -53,7 +53,7 @@ const TVShowDetail = () => {
 
   const endpoints = {
     vidsrc: `https://vidsrc.icu/embed/tv/${id}/${currentSeason}/${currentEpisode}`,
-    multi: `https://vidbinge.dev/embed/tv/${id}/${currentSeason}/${currentEpisode}`, 
+    multi: `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}`, 
   };
 
   const videoUrl = endpoints[selectedEndpoint];
