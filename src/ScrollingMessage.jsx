@@ -8,11 +8,9 @@ function ScrollingMessage() {
         animate={{ x: [0, -800] }} // Adjust -500 or higher to change scroll length
         transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
       >
-        <span>Anime, Manga, are being updated!</span>
-        
         <span>
           {" "}
-          If Movies/TV Shows aren't loading, use{" "}
+          If content aren&#39;t loading, use{" "}
           <a
             href="https://one.one.one.one"
             className="underline text-brown-400"
