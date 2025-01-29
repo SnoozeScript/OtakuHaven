@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { searchAnime } from "../api";
 import AnimeCard from "../components/AnimeCard";
 import { Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const ITEMS_PER_PAGE = 24;
 
@@ -27,7 +28,7 @@ const Anime = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await searchAnime({
           query,
           genre,
@@ -36,7 +37,7 @@ const Anime = () => {
           sort,
           season,
           year,
-          format
+          format,
         });
 
         setAnimeList(response.media);
@@ -53,20 +54,19 @@ const Anime = () => {
   }, [searchParams]);
 
   const handleFilterChange = (filterType, value) => {
-    setSearchParams(prev => {
+    setSearchParams((prev) => {
       if (value) {
         prev.set(filterType, value);
       } else {
         prev.delete(filterType);
       }
-      // Reset to page 1 when filters change
       prev.set("page", "1");
       return prev;
     });
   };
 
   const handlePageChange = (newPage) => {
-    setSearchParams(prev => {
+    setSearchParams((prev) => {
       prev.set("page", newPage.toString());
       return prev;
     });
@@ -76,9 +76,9 @@ const Anime = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <p className="text-red-500">{error}</p>
-        <button 
+        <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-purple-500 rounded hover:bg-purple-600"
+          className="px-4 py-2 bg-purple-500 rounded-xl hover:bg-purple-600 transition-colors text-white"
         >
           Retry
         </button>
@@ -86,18 +86,18 @@ const Anime = () => {
     );
   }
 
-  const displayMessage = genre
-    ? `Results for "${query}" in "${genre}" genre:`
-    : `Results for "${query}"`;
+  const displayMessage = query
+    ? `Search Results for "${query}"`
+    : "Popular Anime";
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="container mx-auto px-2 sm:px-4 py-4 md:py-6 bg-gradient-to-br from-purple-900 via-gray-900 to-indigo-900 min-h-screen">
       {/* Filters */}
-      <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <select
           value={sort}
           onChange={(e) => handleFilterChange("sort", e.target.value)}
-          className="p-2 rounded bg-gray-700"
+          className="p-2.5 text-sm rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         >
           <option value="POPULARITY_DESC">Popular</option>
           <option value="SCORE_DESC">Top Rated</option>
@@ -108,7 +108,7 @@ const Anime = () => {
         <select
           value={genre}
           onChange={(e) => handleFilterChange("genre", e.target.value)}
-          className="p-2 rounded bg-gray-700"
+          className="p-2.5 text-sm rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         >
           <option value="">All Genres</option>
           <option value="ACTION">Action</option>
@@ -121,7 +121,7 @@ const Anime = () => {
         <select
           value={season}
           onChange={(e) => handleFilterChange("season", e.target.value)}
-          className="p-2 rounded bg-gray-700"
+          className="p-2.5 text-sm rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         >
           <option value="">All Seasons</option>
           <option value="WINTER">Winter</option>
@@ -133,20 +133,16 @@ const Anime = () => {
         <select
           value={year}
           onChange={(e) => handleFilterChange("year", e.target.value)}
-          className="p-2 rounded bg-gray-700"
+          className="p-2.5 text-sm rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         >
           <option value="">All Years</option>
-          {Array.from({ length: 10 }, (_, i) => (
-            <option key={i} value={2024 - i}>
-              {2024 - i}
-            </option>
-          ))}
+          {/* Add year options dynamically if needed */}
         </select>
 
         <select
           value={format}
           onChange={(e) => handleFilterChange("format", e.target.value)}
-          className="p-2 rounded bg-gray-700"
+          className="p-2.5 text-sm rounded-xl bg-gray-800/80 backdrop-blur-sm border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         >
           <option value="">All Formats</option>
           <option value="TV">TV</option>
@@ -158,7 +154,9 @@ const Anime = () => {
       </div>
 
       {/* Search Result Message */}
-      <h2 className="text-xl font-bold mb-4">{displayMessage}</h2>
+      <h1 className="text-2xl font-bold mb-6 text-gray-100 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+        {displayMessage}
+      </h1>
 
       {loading ? (
         <div className="flex justify-center items-center min-h-[60vh]">
@@ -167,48 +165,65 @@ const Anime = () => {
       ) : (
         <>
           {/* Anime Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6"
+          >
             {animeList.map((anime) => (
-              <AnimeCard key={anime.id} anime={anime} />
+              <motion.div
+                key={anime.id}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <AnimeCard anime={anime} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-8 flex justify-center gap-2">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
-                className="px-4 py-2 rounded bg-gray-700 disabled:opacity-50"
+                className="px-4 py-2 text-sm rounded-xl bg-gray-800/50 border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors disabled:opacity-50"
               >
                 Previous
-              </button>
-              
+              </motion.button>
+
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 const pageNum = page - 2 + i;
                 if (pageNum > 0 && pageNum <= totalPages) {
                   return (
-                    <button
+                    <motion.button
                       key={pageNum}
+                      whileHover={{ scale: 1.05 }}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`px-4 py-2 rounded ${
-                        page === pageNum ? "bg-purple-500" : "bg-gray-700"
+                      className={`px-4 py-2 text-sm rounded-xl border ${
+                        page === pageNum
+                          ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-transparent"
+                          : "bg-gray-800/50 border-gray-700 text-gray-100 hover:bg-gray-700/50"
                       }`}
                     >
                       {pageNum}
-                    </button>
+                    </motion.button>
                   );
                 }
                 return null;
               })}
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
-                className="px-4 py-2 rounded bg-gray-700 disabled:opacity-50"
+                className="px-4 py-2 text-sm rounded-xl bg-gray-800/50 border border-gray-700 text-gray-100 hover:bg-gray-700/50 transition-colors disabled:opacity-50"
               >
                 Next
-              </button>
+              </motion.button>
             </div>
           )}
         </>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import { motion } from "framer-motion";
 import { Loader2, Filter, Clock, TrendingUp } from "lucide-react";
@@ -73,6 +73,7 @@ const Movies = () => {
   const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
   const [isTimeWindowDropdownOpen, setIsTimeWindowDropdownOpen] =
     useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -144,6 +145,10 @@ const Movies = () => {
     setIsTimeWindowDropdownOpen(false);
   };
 
+  const handleMovieSelect = (id) => {
+    navigate(`/movie/${id}`);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
@@ -161,77 +166,88 @@ const Movies = () => {
   }
 
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-4 md:py-6">
+    <div className="container mx-auto px-2 sm:px-4 py-4 md:py-6 bg-gradient-to-br from-purple-900 via-gray-900 to-indigo-900 min-h-screen">
       <div className="mb-6 space-y-4">
         <div className="flex flex-wrap gap-4 items-center">
           <div className="w-full md:w-auto flex flex-wrap gap-2">
             {Object.entries(PLATFORMS).map(([key, platform]) => (
-              <button
+              <motion.button
                 key={key}
+                whileHover={{ scale: 1.05 }}
                 onClick={() => handleSectionChange(key)}
-                className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                className={`px-4 py-2 text-sm rounded-xl transition-all ${
                   activeSection === key
-                    ? "bg-purple-500 text-white"
-                    : "bg-gray-700 text-gray-300"
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg"
+                    : "bg-gray-800/50 text-gray-100 hover:bg-gray-700/50"
                 } flex-1 sm:flex-none`}
               >
                 {platform.name}
-              </button>
+              </motion.button>
             ))}
           </div>
 
           <div className="flex gap-2 w-full md:w-auto">
             {PLATFORMS[activeSection].needsTimeWindow && (
               <div className="relative w-full md:w-auto">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
                   onClick={() =>
                     setIsTimeWindowDropdownOpen(!isTimeWindowDropdownOpen)
                   }
-                  className="w-full px-3 py-1 bg-gray-700 rounded-lg flex items-center justify-between transition-colors"
+                  className="w-full px-4 py-2 bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700 flex items-center justify-between transition-all"
                 >
-                  <span className="text-gray-300 flex items-center">
-                    <Clock className="w-4 h-4 mr-2" />
+                  <span className="text-gray-100 flex items-center">
+                    <Clock className="w-4 h-4 mr-2 text-purple-400" />
                     {TIME_WINDOWS[timeWindow]}
                   </span>
-                  <TrendingUp className="w-4 h-4 text-gray-400" />
-                </button>
+                  <TrendingUp className="w-4 h-4 text-purple-400" />
+                </motion.button>
 
                 {isTimeWindowDropdownOpen && (
-                  <div className="absolute z-10 mt-2 w-full bg-gray-800 rounded-lg shadow-xl">
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute z-10 mt-2 w-full bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-700"
+                  >
                     {Object.entries(TIME_WINDOWS).map(([key, label]) => (
                       <button
                         key={key}
                         onClick={() => handleTimeWindowChange(key)}
-                        className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
+                        className="w-full px-4 py-2 text-left text-gray-100 hover:bg-gray-700/50 transition-colors first:rounded-t-xl last:rounded-b-xl"
                       >
                         {label}
                       </button>
                     ))}
-                  </div>
+                  </motion.div>
                 )}
               </div>
             )}
 
             {!PLATFORMS[activeSection].needsTimeWindow && (
               <div className="relative w-full md:w-auto">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
                   onClick={() => setIsGenreDropdownOpen(!isGenreDropdownOpen)}
-                  className="w-full px-3 py-1 bg-gray-700 rounded-lg flex items-center justify-between transition-colors"
+                  className="w-full px-4 py-2 bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700 flex items-center justify-between transition-all"
                 >
-                  <span className="text-gray-300">
+                  <span className="text-gray-100">
                     {selectedGenre
                       ? GENRES.find((g) => g.id.toString() === selectedGenre)
                           ?.name
                       : "Select Genre"}
                   </span>
-                  <Filter className="w-4 h-4 text-gray-400" />
-                </button>
+                  <Filter className="w-4 h-4 text-purple-400" />
+                </motion.button>
 
                 {isGenreDropdownOpen && (
-                  <div className="absolute z-10 mt-2 w-full bg-gray-800 rounded-lg shadow-xl">
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute z-10 mt-2 w-full bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-700"
+                  >
                     <button
                       onClick={() => handleGenreChange("")}
-                      className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
+                      className="w-full px-4 py-2 text-left text-gray-100 hover:bg-gray-700/50 transition-colors rounded-t-xl"
                     >
                       All Genres
                     </button>
@@ -239,12 +255,12 @@ const Movies = () => {
                       <button
                         key={genre.id}
                         onClick={() => handleGenreChange(genre.id.toString())}
-                        className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700"
+                        className="w-full px-4 py-2 text-left text-gray-100 hover:bg-gray-700/50 transition-colors last:rounded-b-xl"
                       >
                         {genre.name}
                       </button>
                     ))}
-                  </div>
+                  </motion.div>
                 )}
               </div>
             )}
@@ -252,7 +268,7 @@ const Movies = () => {
         </div>
       </div>
 
-      <h1 className="text-2xl font-bold mb-4 text-white">
+      <h1 className="text-2xl font-bold mb-4 text-gray-100 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
         {searchQuery
           ? `Search Results for "${searchQuery}"`
           : `${PLATFORMS[activeSection].name}${
@@ -271,7 +287,7 @@ const Movies = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-5 md:gap-4 lg:gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6"
         >
           {movies.map((movie) => (
             <motion.div
@@ -279,9 +295,13 @@ const Movies = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col items-center p-2"
+              whileHover={{ scale: 1.05 }}
+              className="flex flex-col items-center "
             >
-              <MovieCard movie={movie} />
+              <MovieCard
+                movie={movie}
+                onSelect={() => handleMovieSelect(movie.id)}
+              />
             </motion.div>
           ))}
         </motion.div>
