@@ -72,6 +72,7 @@ const TVShowDetail = () => {
 
   const endpoints = {
     vidsrc: `https://vidsrc.icu/embed/tv/${id}/${currentSeason}/${currentEpisode}`,
+    Auto: `https://vidbinge.dev/embed/tv/${id}/${currentSeason}/${currentEpisode}`,
     multi: `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}`,
   };
 
@@ -130,12 +131,12 @@ const TVShowDetail = () => {
 
           {/* Player Controls */}
           <div className="flex flex-col gap-4 bg-gray-800 p-4 rounded-xl shadow-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex gap-2 w-full sm:w-auto">
                 <motion.button
                   onClick={handlePrevEpisode}
                   disabled={currentEpisode === 1}
-                  className="p-2 rounded-lg bg-gray-700 hover:bg-green-600 disabled:opacity-50 transition-colors"
+                  className="p-2 rounded-lg bg-gray-700 hover:bg-green-600 disabled:opacity-50 transition-colors flex-1 sm:flex-none"
                   whileTap={{ scale: 0.95 }}
                 >
                   <ChevronLeft className="w-6 h-6 text-white" />
@@ -143,19 +144,19 @@ const TVShowDetail = () => {
                 <motion.button
                   onClick={handleNextEpisode}
                   disabled={currentEpisode === tvShow.season.episodes.length}
-                  className="p-2 rounded-lg bg-gray-700 hover:bg-green-600 disabled:opacity-50 transition-colors"
+                  className="p-2 rounded-lg bg-gray-700 hover:bg-green-600 disabled:opacity-50 transition-colors flex-1 sm:flex-none"
                   whileTap={{ scale: 0.95 }}
                 >
                   <ChevronRight className="w-6 h-6 text-white" />
                 </motion.button>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full sm:w-auto flex-wrap justify-center">
                 {Object.keys(endpoints).map((key) => (
                   <motion.button
                     key={key}
                     onClick={() => setSelectedEndpoint(key)}
-                    className={`px-4 py-2 rounded-md transition-all ${
+                    className={`px-3 py-2 rounded-md transition-all text-sm sm:text-base sm:px-4 ${
                       selectedEndpoint === key
                         ? "bg-purple-600 shadow-purple-glow"
                         : "bg-gray-700 hover:bg-gray-600"
@@ -167,7 +168,6 @@ const TVShowDetail = () => {
                 ))}
               </div>
             </div>
-
             <div className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
               <span className="font-semibold text-lg text-white">
                 S{currentSeason.toString().padStart(2, "0")} • E

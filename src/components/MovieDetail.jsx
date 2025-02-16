@@ -34,7 +34,7 @@ const MovieDetail = () => {
 
   if (!movie) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
+      <div className="flex justify-center text-white items-center min-h-[60vh]">
         <Loader2 className="w-12 h-12 animate-spin text-purple-500" />
       </div>
     );
@@ -42,6 +42,7 @@ const MovieDetail = () => {
 
   const endpoints = {
     vidsrc: `https://vidsrc.icu/embed/movie/${id}`,
+    Auto: `https://vidbinge.dev/embed/movie/${id}`,
     multi: `https://player.autoembed.cc/embed/movie/${id}`,
   };
 
