@@ -32,6 +32,8 @@
     "@tailwindcss/vite": "^4.1.12",
     "@tanstack/react-router": "^1.131.32",
     "@tanstack/router-devtools": "^1.131.32",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "firebase": "^12.2.1",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
