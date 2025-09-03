@@ -121,11 +121,11 @@ const GenreSection: React.FC<GenreSectionProps> = ({ genre }) => {
           {loading ? (
             // Loading skeleton
             Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="flex-shrink-0 w-40 h-60 sm:w-48 sm:h-72 lg:w-60 lg:h-[400px] bg-gray-800 rounded-lg animate-pulse" />
+              <div key={index} className="flex-shrink-0 w-32 h-48 sm:w-40 sm:h-60 md:w-48 md:h-72 lg:w-56 lg:h-80 bg-gray-800 rounded-lg animate-pulse" />
             ))
           ) : (
             genreShows.slice(0, 20).map((show) => (
-              <div key={show.id} className="flex-shrink-0 w-40 sm:w-48 lg:w-60">
+              <div key={show.id} className="flex-shrink-0 w-32 sm:w-40 md:w-48 lg:w-56">
                 <MediaCard media={convertToMediaCard(show)} />
               </div>
             ))

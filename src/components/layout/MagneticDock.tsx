@@ -93,19 +93,19 @@ export const MagneticDock: React.FC<MagneticDockProps> = ({ onSearch, onNavigate
   const getItemScale = (itemIndex: number, hoveredIndex: number | null) => {
     if (hoveredIndex === null) return 1;
     const distance = Math.abs(itemIndex - hoveredIndex);
-    // Reduced scale effects for better mobile experience
-    if (distance === 0) return window.innerWidth < 640 ? 1.2 : 1.4;
-    if (distance === 1) return window.innerWidth < 640 ? 1.1 : 1.2;
-    if (distance === 2) return window.innerWidth < 640 ? 1.05 : 1.1;
+    // Better mobile-friendly scale effects with improved touch targets
+    if (distance === 0) return window.innerWidth < 640 ? 1.1 : 1.4;
+    if (distance === 1) return window.innerWidth < 640 ? 1.05 : 1.2;
+    if (distance === 2) return window.innerWidth < 640 ? 1.02 : 1.1;
     return 1;
   };
 
   const getItemTransform = (itemIndex: number, hoveredIndex: number | null) => {
     if (hoveredIndex === null) return 'translateY(0)';
     const distance = Math.abs(itemIndex - hoveredIndex);
-    // Reduced transform effects for mobile
-    if (distance === 0) return window.innerWidth < 640 ? 'translateY(-4px)' : 'translateY(-8px)';
-    if (distance === 1) return window.innerWidth < 640 ? 'translateY(-2px)' : 'translateY(-4px)';
+    // Subtle transform effects for better mobile experience
+    if (distance === 0) return window.innerWidth < 640 ? 'translateY(-2px)' : 'translateY(-8px)';
+    if (distance === 1) return window.innerWidth < 640 ? 'translateY(-1px)' : 'translateY(-4px)';
     return 'translateY(0)';
   };
 
@@ -118,15 +118,15 @@ export const MagneticDock: React.FC<MagneticDockProps> = ({ onSearch, onNavigate
         </span>
       </div>
 
-      {/* Magnetic Dock - Responsive */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 sm:bottom-6">
+      {/* Magnetic Dock - Responsive with Better Mobile Spacing */}
+      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 sm:bottom-6">
         <div
           ref={dockRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHoveredItem(null)}
-          className="bg-black/40 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-2xl"
+          className="bg-black/40 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-3 sm:p-3 shadow-2xl"
         >
-          <div className="flex items-end gap-1 sm:gap-2">
+          <div className="flex items-end gap-3 sm:gap-2">
             {dockItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = activeItem === item.id;
@@ -140,7 +140,7 @@ export const MagneticDock: React.FC<MagneticDockProps> = ({ onSearch, onNavigate
                   <button
                     onClick={() => handleItemClick(item)}
                     onMouseEnter={() => setHoveredItem(item.id)}
-                    className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all duration-200 ease-out ${
+                    className={`relative w-12 h-12 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all duration-200 ease-out ${
                       isActive
                         ? `bg-gradient-to-r ${item.color} shadow-lg`
                         : 'bg-white/10 hover:bg-white/20 active:bg-white/30'
@@ -150,7 +150,7 @@ export const MagneticDock: React.FC<MagneticDockProps> = ({ onSearch, onNavigate
                     }}
                   >
                     <Icon 
-                      size={18} 
+                      size={20} 
                       className={`sm:w-5 sm:h-5 ${
                         isActive ? 'text-white' : 'text-white/70 group-hover:text-white'
                       } transition-colors`} 

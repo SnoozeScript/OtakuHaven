@@ -64,7 +64,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
 
   return (
     <div 
-      className="bg-slate-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 cursor-pointer hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-900 group h-[400px] flex flex-col"
+      className="bg-slate-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 cursor-pointer hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-900 group h-48 sm:h-60 md:h-72 lg:h-80 flex flex-col"
       onClick={handleClick}
       onKeyPress={handleKeyPress}
       tabIndex={0}
