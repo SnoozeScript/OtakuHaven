@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created for OtakuHaven - Your Anime & Movie Hub -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Main Pages -->
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/movies</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/tv-shows</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- User Pages -->
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/profile</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Popular Movie Genres -->
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/movies/action</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/movies/comedy</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/movies/drama</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/movies/horror</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/movies/sci-fi</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Popular TV Show Genres -->
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/tv-shows/action</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/tv-shows/comedy</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/tv-shows/drama</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://otakuhaven.aadilinamdar27.me/tv-shows/animation</loc>
+    <lastmod>2025-09-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Sitemaps for all domains
+Sitemap: https://otakuhaven.aadilinamdar27.me/sitemap.xml
+Sitemap: https://otakuhaven.vercel.app/sitemap.xml

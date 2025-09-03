@@ -1,0 +1,57 @@
+{
+  "name": "otakuhaven",
+  "version": "2.0.0",
+  "description": "Your Ultimate Anime & Movie Hub - A modern React application for browsing movies and TV shows with personal watchlists and favorites",
+  "private": true,
+  "type": "module",
+  "author": "SnoozeScript",
+  "license": "MIT",
+  "homepage": "https://otakuhaven.aadilinamdar27.me",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SnoozeScript/OtakuHaven.git"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "movies",
+    "tv-shows",
+    "anime",
+    "firebase",
+    "tailwindcss",
+    "entertainment"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@tailwindcss/vite": "^4.1.12",
+    "@tanstack/react-router": "^1.131.32",
+    "@tanstack/router-devtools": "^1.131.32",
+    "firebase": "^12.2.1",
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.542.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "terser": "^5.44.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2",
+    "vite-plugin-remove-console": "^2.2.0"
+  }
+}
