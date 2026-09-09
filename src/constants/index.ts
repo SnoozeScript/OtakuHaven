@@ -32,6 +32,35 @@ export const PLAYER_CONFIG = {
   supportedFormats: ['mp4', 'hls', 'dash'] as const,
 } as const;
 
+// VidFast Player Configuration (https://vidfast.vc)
+export const VIDFAST_CONFIG = {
+  baseUrl: 'https://vidfast.vc',
+  // Origins the player may postMessage from — validate against this list
+  origins: [
+    'https://vidfast.pro',
+    'https://vidfast.in',
+    'https://vidfast.io',
+    'https://vidfast.me',
+    'https://vidfast.net',
+    'https://vidfast.pm',
+    'https://vidfast.xyz',
+    'https://vidfast.vc',
+    'https://vidfast.bz',
+  ],
+  localStorageKey: 'vidFastProgress',
+} as const;
+
+// Embed URL builders (autoPlay handled by the player itself)
+export const getVidFastMovieUrl = (tmdbId: number | string, theme = '22D3EE') =>
+  `${VIDFAST_CONFIG.baseUrl}/movie/${tmdbId}?autoPlay=true&theme=${theme}`;
+
+export const getVidFastTvUrl = (
+  tmdbId: number | string,
+  season: number,
+  episode: number,
+  theme = '8B5CF6'
+) => `${VIDFAST_CONFIG.baseUrl}/tv/${tmdbId}/${season}/${episode}?autoPlay=true&theme=${theme}`;
+
 // Pagination
 export const PAGINATION = {
   defaultPageSize: 20,

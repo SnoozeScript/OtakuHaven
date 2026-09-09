@@ -4,75 +4,35 @@
  */
 
 import React, { memo } from 'react';
-import { motion } from 'framer-motion';
 
+/**
+ * Ambient "aurora" backdrop: a deep-space base with three slowly drifting
+ * color fields and a soft vignette. Pure CSS — no per-frame JS work.
+ */
 export const ReactiveGridBackground: React.FC = memo(() => {
-  // Reduced grid density for better performance (was 40x25 = 1000 elements, now 20x12 = 240 elements)
-  const gridCols = 20;
-  const gridRows = 12;
-
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Static gradient background - no animation overhead */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900" />
-      
-      {/* Simplified grid with CSS animation instead of Framer Motion for better performance */}
-      <div className="absolute inset-0 opacity-30">
-        <div 
-          className="grid-background"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(6, 182, 212, 0.1) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(6, 182, 212, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: `${100 / gridCols}% ${100 / gridRows}%`,
-            width: '100%',
-            height: '100%'
-          }}
-        />
-      </div>
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+      {/* Base */}
+      <div className="absolute inset-0 bg-ink-950" />
 
-      {/* Fewer animated dots - only create a sparse pattern */}
-      <div className="absolute inset-0">
-        {Array.from({ length: 50 }).map((_, i) => {
-          const x = (i % 10) * 10;
-          const y = Math.floor(i / 10) * 20;
-          const delay = i * 0.08;
-          
-          return (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-cyan-400/30 rounded-full"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-              }}
-              animate={{
-                opacity: [0.2, 0.5, 0.2],
-              }}
-              transition={{
-                duration: 3,
-                delay: delay,
-                repeat: Infinity,
-                ease: "easeInOut",
-                repeatType: "loop"
-              }}
-            />
-          );
-        })}
-      </div>
+      {/* Aurora fields */}
+      <div
+        className="absolute -top-1/4 -left-1/4 w-[70vw] h-[70vw] rounded-full opacity-25 animate-aurora-a"
+        style={{ background: 'radial-gradient(circle, rgba(34, 211, 238, 0.5) 0%, transparent 65%)' }}
+      />
+      <div
+        className="absolute top-1/3 -right-1/4 w-[65vw] h-[65vw] rounded-full opacity-20 animate-aurora-b"
+        style={{ background: 'radial-gradient(circle, rgba(99, 102, 241, 0.55) 0%, transparent 65%)' }}
+      />
+      <div
+        className="absolute -bottom-1/3 left-1/4 w-[60vw] h-[60vw] rounded-full opacity-[0.13] animate-aurora-c"
+        style={{ background: 'radial-gradient(circle, rgba(232, 121, 249, 0.5) 0%, transparent 65%)' }}
+      />
 
-      {/* Simple dock connection indicator */}
-      <motion.div
-        className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gradient-to-t from-purple-400/40 to-transparent"
-        animate={{
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      {/* Vignette to keep edges dark and content readable */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(4, 6, 13, 0.85) 100%)' }}
       />
     </div>
   );

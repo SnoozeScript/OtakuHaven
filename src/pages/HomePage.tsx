@@ -5,21 +5,23 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Info, Star, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Star, ChevronLeft, ChevronRight, Film, Tv, Sparkles, Flame } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTMDBTrending, useTMDBPopular } from '../hooks';
+import { SectionHeading } from '../components/common';
 import type { Media } from '../types';
 
-// Refined Poster Component with Subtle Animations
-const RefinedPoster: React.FC<{ 
-  media: Media; 
-  index: number; 
+// ---------- Poster (matches the shared MediaCard language) ----------
+
+const Poster: React.FC<{
+  media: Media;
+  index: number;
   isInView: boolean;
   size?: 'small' | 'medium' | 'large';
-  showInfo?: boolean;
-}> = ({ media, index, isInView, size = 'medium', showInfo = true }) => {
+}> = ({ media, index, isInView, size = 'medium' }) => {
   const navigate = useNavigate();
-  
+
   const handleClick = () => {
     if (media.type === 'movie') {
       navigate({ to: '/movie/$movieId', params: { movieId: media.id } });
@@ -30,224 +32,177 @@ const RefinedPoster: React.FC<{
 
   const sizeClasses = {
     small: 'w-32 h-48 sm:w-36 sm:h-54',
-    medium: 'w-40 h-60 sm:w-48 sm:h-72',
-    large: 'w-48 h-72 sm:w-56 sm:h-84'
+    medium: 'w-40 h-60 sm:w-44 sm:h-64',
+    large: 'w-44 h-64 sm:w-52 sm:h-76',
   };
 
   const formatRating = (rating: number | undefined | null) => {
-    if (rating === undefined || rating === null || isNaN(rating)) return 'N/A';
+    if (rating === undefined || rating === null || isNaN(rating)) return null;
     return rating.toFixed(1);
   };
 
   const getYear = (date: string | undefined) => {
-    if (!date) return 'N/A';
+    if (!date) return '';
     return new Date(date).getFullYear();
   };
 
+  const rating = formatRating(media.rating);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ 
-        duration: 0.4, 
-        delay: index * 0.05, // Reduced delay for faster rendering
-        ease: "easeOut"
-      }}
-      className={`group relative ${sizeClasses[size]} cursor-pointer transition-transform duration-300 hover:-translate-y-2`}
+      initial={{ opacity: 0, y: 16 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+      transition={{ duration: 0.35, delay: index * 0.04, ease: 'easeOut' }}
+      className={`group relative ${sizeClasses[size]} cursor-pointer transition-transform duration-300 hover:-translate-y-1.5`}
       onClick={handleClick}
     >
-      {/* Main Poster */}
-      <div className="relative w-full h-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div className="relative w-full h-full rounded-2xl overflow-hidden bg-ink-800 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-cyan-300/40 group-hover:shadow-glow-sm">
         <img
           src={media.posterUrl}
           alt={media.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
           loading="lazy"
           decoding="async"
+          onError={(e) => { e.currentTarget.style.opacity = '0'; }}
         />
-        
-        {/* Subtle Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {/* Content Overlay - using CSS transitions instead of Framer Motion for better performance */}
-        {showInfo && (
-          <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <div className="space-y-2">
-              <h3 className="text-white font-semibold text-sm sm:text-base line-clamp-2 leading-tight">
-                {media.title}
-              </h3>
-              
-              <div className="flex items-center gap-3 text-xs text-gray-300">
-                <div className="flex items-center gap-1">
-                  <Calendar size={12} />
-                  <span>{getYear(media.releaseDate)}</span>
-                </div>
-                {media.rating && media.rating > 0 && (
-                  <div className="flex items-center gap-1">
-                    <Star size={12} className="text-yellow-400 fill-current" />
-                    <span>{formatRating(media.rating)}</span>
-                  </div>
-                )}
-              </div>
 
-              <div className="flex gap-2">
-                <button
-                  className="flex items-center gap-1 px-3 py-1.5 bg-white/90 hover:bg-white text-black rounded-md text-xs font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-                >
-                  <Play size={12} />
-                  <span>Play</span>
-                </button>
-                <button
-                  className="flex items-center gap-1 px-3 py-1.5 bg-black/50 hover:bg-black/70 text-white rounded-md text-xs font-medium backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95"
-                >
-                  <Info size={12} />
-                  <span>Info</span>
-                </button>
-              </div>
-            </div>
+        {/* Readable base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/20 to-transparent" />
+
+        {/* Play affordance */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-ink-950/20">
+          <div className="w-12 h-12 rounded-full bg-brand shadow-glow-sm flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-300">
+            <Play size={18} fill="white" className="text-white ml-0.5" />
           </div>
-        )}
+        </div>
 
-        {/* Simple Type Badge */}
-        <div className="absolute top-3 left-3">
-          <div
-            className={`px-2 py-1 rounded text-xs font-medium backdrop-blur-sm transition-opacity duration-300 ${
-              media.type === 'movie' 
-                ? 'bg-blue-500/80 text-white' 
-                : 'bg-purple-500/80 text-white'
+        {/* Top chips */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-start justify-between gap-2">
+          <span
+            className={`px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide backdrop-blur-md ${
+              media.type === 'movie' ? 'bg-sky-400/20 text-sky-300' : 'bg-violet-400/20 text-violet-300'
             }`}
           >
             {media.type === 'movie' ? 'Movie' : 'TV'}
-          </div>
+          </span>
+          {rating && (
+            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-ink-950/60 backdrop-blur-md text-[11px] font-semibold text-white">
+              <Star size={10} className="text-amber-300 fill-amber-300" />
+              {rating}
+            </span>
+          )}
+        </div>
+
+        {/* Bottom info */}
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <h3 className="text-white font-semibold text-[13px] leading-snug line-clamp-2">{media.title}</h3>
+          <p className="text-white/50 text-[11px] font-medium mt-0.5">{getYear(media.releaseDate)}</p>
         </div>
       </div>
     </motion.div>
   );
 };
 
-// Elegant Scrollable Row Component
-const ElegantMediaRow: React.FC<{
+// ---------- Scrollable row ----------
+
+const MediaRow: React.FC<{
   title: string;
+  subtitle?: string;
+  icon?: LucideIcon;
   media: Media[];
   loading: boolean;
   size?: 'small' | 'medium' | 'large';
-}> = ({ title, media, loading, size = 'medium' }) => {
+}> = ({ title, subtitle, icon, media, loading, size = 'medium' }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-
   const scrollContainer = React.useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollContainer.current) return;
-    
     const scrollAmount = size === 'small' ? 400 : size === 'large' ? 600 : 500;
-    const newPosition = direction === 'left' 
-      ? scrollPosition - scrollAmount 
-      : scrollPosition + scrollAmount;
-    
-    scrollContainer.current.scrollTo({
-      left: newPosition,
-      behavior: 'smooth'
-    });
+    const newPosition = direction === 'left' ? scrollPosition - scrollAmount : scrollPosition + scrollAmount;
+    scrollContainer.current.scrollTo({ left: newPosition, behavior: 'smooth' });
   };
 
   const handleScroll = () => {
     if (!scrollContainer.current) return;
-    
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.current;
     setScrollPosition(scrollLeft);
     setCanScrollLeft(scrollLeft > 0);
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
   };
 
-  return (
-    <div className="relative group">
-      {/* Section Title */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="mb-6 px-4 sm:px-6"
-      >
-        <h2 className="text-2xl sm:text-3xl font-bold text-white">
-          {title}
-        </h2>
-      </motion.div>
+  const skeletonSize = {
+    small: 'w-32 h-48 sm:w-36 sm:h-54',
+    medium: 'w-40 h-60 sm:w-44 sm:h-64',
+    large: 'w-44 h-64 sm:w-52 sm:h-76',
+  }[size];
 
-      {/* Navigation Buttons */}
+  return (
+    <div className="relative">
+      <div className="mb-5 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <SectionHeading title={title} subtitle={subtitle} icon={icon} />
+      </div>
+
       <AnimatePresence>
         {canScrollLeft && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.85 }}
             onClick={() => scroll('left')}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-black/70 hover:bg-black/90 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            aria-label="Scroll left"
+            className="absolute left-3 lg:left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full glass-strong flex items-center justify-center text-white/80 hover:text-white hover:border-cyan-300/30 transition-all duration-300 hover:scale-110"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={18} />
           </motion.button>
         )}
-        
+
         {canScrollRight && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.85 }}
             onClick={() => scroll('right')}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-black/70 hover:bg-black/90 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            aria-label="Scroll right"
+            className="absolute right-3 lg:right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full glass-strong flex items-center justify-center text-white/80 hover:text-white hover:border-cyan-300/30 transition-all duration-300 hover:scale-110"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={18} />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Scrollable Container */}
-      <div 
+      <div
         ref={scrollContainer}
         onScroll={handleScroll}
-        className="flex gap-4 overflow-x-auto scrollbar-hide px-4 sm:px-6 pb-4"
+        className="flex gap-3.5 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-8 pb-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {loading ? (
-          // Elegant Loading Skeletons
-          Array.from({ length: 10 }).map((_, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
-              className={`flex-shrink-0 ${
-                size === 'small' ? 'w-32 h-48' : 
-                size === 'large' ? 'w-48 h-72' : 'w-40 h-60'
-              } bg-gradient-to-b from-gray-800/30 to-gray-900/50 rounded-lg animate-pulse`}
-            />
-          ))
-        ) : (
-          // Refined Posters
-          media.map((item, index) => (
-            <div key={`${item.id}-${index}`} className="flex-shrink-0">
-              <RefinedPoster
-                media={item}
-                index={index}
-                isInView={true}
-                size={size}
-              />
-            </div>
-          ))
-        )}
+        {loading
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <div key={index} className={`flex-shrink-0 shimmer rounded-2xl ${skeletonSize}`} />
+            ))
+          : media.map((item, index) => (
+              <div key={`${item.id}-${index}`} className="flex-shrink-0">
+                <Poster media={item} index={index} isInView={true} size={size} />
+              </div>
+            ))}
       </div>
     </div>
   );
 };
 
-// Auto-Scrolling Trending Component (for Trending This Week only)
+// ---------- Auto-scrolling trending row ----------
+
 const AutoScrollingTrendingRow: React.FC<{
   title: string;
+  subtitle?: string;
+  icon?: LucideIcon;
   media: Media[];
   loading: boolean;
   size?: 'small' | 'medium' | 'large';
-}> = ({ title, media, loading, size = 'large' }) => {
+}> = ({ title, subtitle, icon, media, loading, size = 'large' }) => {
   const scrollContainer = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -256,25 +211,20 @@ const AutoScrollingTrendingRow: React.FC<{
 
     let animationId: number;
     let scrollPosition = 0;
-    const scrollSpeed = 3; // Pixels per frame (increased from 0.5)
+    const scrollSpeed = 2;
     const itemWidth = size === 'small' ? 160 : size === 'large' ? 240 : 200;
     const totalWidth = media.length * itemWidth;
 
     const autoScroll = () => {
       if (!container) return;
-      
       scrollPosition += scrollSpeed;
-      
-      // Reset to beginning when we've scrolled through all items
       if (scrollPosition >= totalWidth) {
         scrollPosition = 0;
       }
-      
       container.scrollLeft = scrollPosition;
       animationId = requestAnimationFrame(autoScroll);
     };
 
-    // Start auto-scrolling after a delay
     const timeout = setTimeout(() => {
       animationId = requestAnimationFrame(autoScroll);
     }, 2000);
@@ -289,110 +239,115 @@ const AutoScrollingTrendingRow: React.FC<{
 
   const sizeClasses = {
     small: 'w-32 h-48 sm:w-36 sm:h-54',
-    medium: 'w-40 h-60 sm:w-48 sm:h-72',
-    large: 'w-48 h-72 sm:w-56 sm:h-84'
+    medium: 'w-40 h-60 sm:w-44 sm:h-64',
+    large: 'w-44 h-64 sm:w-52 sm:h-76',
   };
+  const skeletonSize = sizeClasses[size];
 
   return (
     <div className="relative">
-      {/* Section Title */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="mb-6 px-4 sm:px-6"
-      >
-        <h2 className="text-2xl sm:text-3xl font-bold text-white">
-          {title}
-        </h2>
-      </motion.div>
+      <div className="mb-5 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <SectionHeading title={title} subtitle={subtitle} icon={icon} />
+      </div>
 
-      {/* Auto-Scrolling Container */}
-      <div 
+      <div
         ref={scrollContainer}
-        className="flex gap-4 overflow-x-hidden px-4 sm:px-6 pb-4"
+        className="flex gap-3.5 overflow-x-hidden px-4 sm:px-6 lg:px-8 pb-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {loading ? (
-          // Loading Skeletons
-          Array.from({ length: 10 }).map((_, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
-              className={`flex-shrink-0 ${sizeClasses[size]} bg-gradient-to-b from-gray-800/30 to-gray-900/50 rounded-lg animate-pulse`}
-            />
-          ))
-        ) : (
-          // Duplicate the media array to create seamless loop
-          [...media, ...media].map((item, index) => (
-            <div key={`${item.id}-${index}`} className="flex-shrink-0">
-              <RefinedPoster
-                media={item}
-                index={index % media.length}
-                isInView={true}
-                size={size}
-              />
-            </div>
-          ))
-        )}
+        {loading
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <div key={index} className={`flex-shrink-0 shimmer rounded-2xl ${skeletonSize}`} />
+            ))
+          : [...media, ...media].map((item, index) => (
+              <div key={`${item.id}-${index}`} className="flex-shrink-0">
+                <Poster media={item} index={index % media.length} isInView={true} size={size} />
+              </div>
+            ))}
       </div>
     </div>
   );
 };
 
+// ---------- Page ----------
+
 export const HomePage: React.FC = () => {
   const { data: popularMovies, loading: moviesLoading } = useTMDBPopular('movie');
   const { data: popularTVShows, loading: tvLoading } = useTMDBPopular('tv');
   const { data: trendingWeek, loading: trendingWeekLoading } = useTMDBTrending('all', 'week');
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-gray-900">
-      {/* Refined Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="relative min-h-[78vh] flex items-center justify-center overflow-hidden">
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-16">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7 }}
           >
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight">
-              Discover Amazing
-              <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Entertainment
-              </span>
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass text-xs font-medium text-white/70 mb-7">
+              <Sparkles size={13} className="text-cyan-300" />
+              Your universe of stories
+            </span>
+
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-[1.08] text-white">
+              Every story
+              <span className="block text-brand">worth watching.</span>
             </h1>
-            
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto">
-              Explore thousands of movies and TV shows with detailed information, ratings, and reviews.
+
+            <p className="text-base sm:text-lg text-white/55 mb-9 leading-relaxed max-w-xl mx-auto">
+              Thousands of movies and shows — discovered, tracked, and played in one beautiful place.
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={() => navigate({ to: '/movies' })}
+                className="group flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm sm:text-base shadow-glow hover:shadow-glow-violet hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
+              >
+                <Film size={18} />
+                Browse Movies
+              </button>
+              <button
+                onClick={() => navigate({ to: '/tv-shows' })}
+                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl glass text-white font-semibold text-sm sm:text-base hover:bg-white/[0.08] hover:border-cyan-300/25 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
+              >
+                <Tv size={18} />
+                Browse TV Shows
+              </button>
+            </div>
           </motion.div>
         </div>
+
+        {/* Bottom fade into content */}
+        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-ink-950 to-transparent" />
       </section>
 
-      {/* Content Sections with Clean Spacing */}
-      <div className="space-y-16 py-16">
-        {/* Trending This Week - Auto Scrolling */}
+      {/* Content rows */}
+      <div className="space-y-14 sm:space-y-16 pb-24">
         <AutoScrollingTrendingRow
-          title="⭐ Trending This Week"
+          title="Trending This Week"
+          subtitle="What everyone is watching"
+          icon={Flame}
           media={trendingWeek || []}
           loading={trendingWeekLoading}
           size="large"
         />
 
-        {/* Popular Movies */}
-        <ElegantMediaRow
-          title="🎬 Popular Movies"
+        <MediaRow
+          title="Popular Movies"
+          subtitle="Big screens, big stories"
+          icon={Film}
           media={popularMovies?.results || []}
           loading={moviesLoading}
           size="medium"
         />
 
-        {/* Popular TV Shows */}
-        <ElegantMediaRow
-          title="📺 Popular TV Shows"
+        <MediaRow
+          title="Popular TV Shows"
+          subtitle="Series you can't pause"
+          icon={Tv}
           media={popularTVShows?.results || []}
           loading={tvLoading}
           size="medium"

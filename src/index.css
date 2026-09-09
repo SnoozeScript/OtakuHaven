@@ -1,28 +1,48 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
-/* Custom scrollbar utilities */
-.scrollbar-none {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* ---------- Base ---------- */
+
+html {
+  background-color: #04060d;
+  color-scheme: dark;
 }
 
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f8fafc;
+  background-color: #04060d;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+  color: #fff;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- Scrollbars ---------- */
+
+.scrollbar-none,
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
+.scrollbar-none::-webkit-scrollbar,
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-/* Clean scrollbar styling */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(59, 130, 246, 0.4) rgba(31, 41, 55, 0.2);
+  scrollbar-color: rgba(129, 140, 248, 0.35) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -31,31 +51,70 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(31, 41, 55, 0.2);
-  border-radius: 3px;
+  background: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.4);
-  border-radius: 3px;
-  transition: background 0.2s ease;
+  background: rgba(129, 140, 248, 0.3);
+  border-radius: 999px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.6);
+  background: rgba(129, 140, 248, 0.55);
 }
 
-/* Smooth scrollbar for horizontal scroll */
-.scrollbar-hide {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* ---------- Design-system utilities ---------- */
+
+/* Frosted glass surface */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+.glass-strong {
+  background: rgba(10, 13, 24, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
-/* Line clamp utility */
+/* Brand gradient text */
+.text-brand {
+  background-image: linear-gradient(135deg, #22d3ee 0%, #818cf8 55%, #e879f9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Uppercase micro label */
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Shimmering skeleton */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.09) 37%,
+    rgba(255, 255, 255, 0.04) 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+/* Line clamp helpers */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -64,36 +123,24 @@
   overflow: hidden;
 }
 
-/* Professional focus states */
-*:focus-visible {
-  outline: 2px solid rgba(59, 130, 246, 0.5);
-  outline-offset: 2px;
-  border-radius: 4px;
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Performance optimizations */
-* {
-  /* Use GPU acceleration for transforms and opacity */
-  will-change: auto;
-}
-
-/* Only animate transform and opacity for better performance */
-.animate-optimized {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* Prevent layout thrashing */
 img, video {
   content-visibility: auto;
 }
 
-/* Optimize scrolling performance */
 .scroll-smooth {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

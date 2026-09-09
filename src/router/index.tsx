@@ -8,6 +8,7 @@ import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/re
 import { ReactiveGridBackground } from '../components/backgrounds/ReactiveGridBackground';
 import { MagneticDock } from '../components/layout/MagneticDock';
 import { Footer } from '../components/layout/Footer';
+import { CommandPalette, CommandPaletteProvider } from '../components/layout/CommandPalette';
 import { RouterDevtools } from '../components/dev/RouterDevtools';
 
 // Lazy load page components for better initial load performance
@@ -21,29 +22,29 @@ const TVShowsPage = lazy(() => import('../pages/TVShowsPage'));
 // Loading fallback component
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center">
-    <div className="text-center">
-      <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400 mb-4"></div>
-      <p className="text-white/60">Loading...</p>
-    </div>
+    <div className="w-14 h-14 rounded-full border-[3px] border-white/10 border-t-cyan-300 animate-spin" />
   </div>
 );
 
 // Root route with layout
 const rootRoute = createRootRoute({
   component: () => (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-gray-900 relative flex flex-col">
-      <ReactiveGridBackground />
-      <MagneticDock />
-      <main className="flex-1 relative z-10">
-        <Suspense fallback={<LoadingFallback />}>
-          <Outlet />
-        </Suspense>
-      </main>
-      <div className="relative z-10">
-        <Footer />
+    <CommandPaletteProvider>
+      <div className="min-h-screen relative flex flex-col">
+        <ReactiveGridBackground />
+        <MagneticDock />
+        <main className="flex-1 relative z-10">
+          <Suspense fallback={<LoadingFallback />}>
+            <Outlet />
+          </Suspense>
+        </main>
+        <div className="relative z-10">
+          <Footer />
+        </div>
+        <CommandPalette />
+        <RouterDevtools />
       </div>
-      <RouterDevtools />
-    </div>
+    </CommandPaletteProvider>
   ),
 });
 
@@ -103,12 +104,11 @@ const favoritesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/favorites',
   component: () => (
-    <div className="min-h-screen bg-black text-white pt-20 pb-32 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
-          Favorites Page
-        </h1>
-        <p className="text-white/60">Coming soon...</p>
+    <div className="min-h-screen pt-24 pb-32 flex items-center justify-center px-4">
+      <div className="glass rounded-3xl px-8 py-12 text-center max-w-md">
+        <div className="text-5xl mb-4">💖</div>
+        <h1 className="text-2xl font-bold mb-2 text-white">Favorites</h1>
+        <p className="text-white/45 text-sm">Your liked titles will live here — coming soon.</p>
       </div>
     </div>
   ),
@@ -119,12 +119,11 @@ const watchlistRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/watchlist',
   component: () => (
-    <div className="min-h-screen bg-black text-white pt-20 pb-32 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-          Watchlist Page
-        </h1>
-        <p className="text-white/60">Coming soon...</p>
+    <div className="min-h-screen pt-24 pb-32 flex items-center justify-center px-4">
+      <div className="glass rounded-3xl px-8 py-12 text-center max-w-md">
+        <div className="text-5xl mb-4">🔖</div>
+        <h1 className="text-2xl font-bold mb-2 text-white">Watchlist</h1>
+        <p className="text-white/45 text-sm">Your saved titles will live here — coming soon.</p>
       </div>
     </div>
   ),
@@ -150,7 +149,7 @@ const routeTree = rootRoute.addChildren([
 ]);
 
 // Create router
-export const router = createRouter({ routeTree });
+export const router = createRouter({ routeTree, scrollRestoration: true });
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {

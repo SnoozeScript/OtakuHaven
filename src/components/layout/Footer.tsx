@@ -4,115 +4,91 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Heart, Github, Film } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-b from-transparent via-slate-900/30 to-gray-900 text-white py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
-          
-          {/* Brand Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4"
-          >
-            <div className="flex items-center gap-2">
-              <Film className="text-blue-400" size={32} />
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                OtakuHaven
-              </h3>
+    <footer className="relative mt-8 border-t border-white/[0.06]">
+      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-6 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          {/* Brand */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-brand flex items-center justify-center shadow-glow-sm">
+                <Film size={18} className="text-white" />
+              </div>
+              <span className="text-xl font-bold tracking-tight text-brand">OtakuHaven</span>
             </div>
-            <p className="text-gray-300 leading-relaxed">
-              Your ultimate destination for discovering amazing movies and TV shows. 
-              Explore thousands of titles with detailed information, ratings, and reviews.
+            <p className="text-white/45 text-sm leading-relaxed max-w-xs">
+              Your ultimate destination for discovering amazing movies and TV shows — thousands of
+              titles with ratings, details, and one-tap playback.
             </p>
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <span>Made with</span>
-              <Heart size={16} className="text-red-400 fill-current" />
-              <span>for movie lovers</span>
-            </div>
-          </motion.div>
+            <p className="flex items-center gap-1.5 text-xs text-white/35">
+              Made with <Heart size={12} className="text-pink-400 fill-pink-400" /> for movie lovers
+            </p>
+          </div>
 
           {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-4"
-          >
-            <h4 className="text-lg font-semibold text-white">Quick Links</h4>
-            <ul className="space-y-3">
+          <div className="space-y-3 md:justify-self-center">
+            <h4 className="eyebrow">Explore</h4>
+            <ul className="space-y-2.5">
               {[
                 { name: 'Home', href: '/' },
                 { name: 'Movies', href: '/movies' },
-                { name: 'TV Shows', href: '/tv-shows' }
-              ].map((link) => (
+                { name: 'TV Shows', href: '/tv-shows' },
+                { name: 'Profile', href: '/profile' },
+              ].map(link => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-2 group"
+                  <Link
+                    to={link.href}
+                    className="text-sm text-white/55 hover:text-cyan-300 transition-colors duration-200"
                   >
-                    <span className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Connect & Support */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-4"
-          >
-            <h4 className="text-lg font-semibold text-white">Connect</h4>
-            <p className="text-gray-300 text-sm mb-4">
-              Follow us for the latest updates and movie recommendations!
+          {/* Connect */}
+          <div className="space-y-3 md:justify-self-end">
+            <h4 className="eyebrow">Connect</h4>
+            <p className="text-white/45 text-sm max-w-xs">
+              Follow along for updates and fresh recommendations.
             </p>
-            
-            {/* Social Links */}
-            <div className="flex gap-4">
-              <motion.a
-                href="https://github.com/SnoozeScript/OtakuHaven"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors duration-200 group"
-                aria-label="GitHub"
-              >
-                <Github size={20} className="text-gray-300 group-hover:text-white" />
-              </motion.a>
-            </div>
-          </motion.div>
+            <a
+              href="https://github.com/SnoozeScript/OtakuHaven"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass hover:border-cyan-300/30 text-sm text-white/80 hover:text-white transition-all duration-200"
+              aria-label="GitHub"
+            >
+              <Github size={16} />
+              GitHub
+            </a>
+          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="pt-8 border-t border-gray-700"
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-gray-400">
-              © {currentYear} OtakuHaven. All rights reserved.
-            </div>
-            
-            <div className="text-sm text-gray-400">
-              Powered by TMDB API
-            </div>
-          </div>
-        </motion.div>
+        {/* Bottom bar */}
+        <div className="pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/35">
+          <span>© {currentYear} OtakuHaven. All rights reserved.</span>
+          <span>
+            Powered by{' '}
+            <a
+              href="https://www.themoviedb.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/55 hover:text-cyan-300 transition-colors"
+            >
+              TMDB API
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   );
