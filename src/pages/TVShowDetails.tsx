@@ -12,7 +12,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useUserData } from '../hooks/useUserData';
 import { AuthModal } from '../components/auth/AuthModal';
 import { logger } from '../utils';
-import { API_CONFIG, getVidFastTvUrl, VIDFAST_CONFIG } from '../constants';
+import { API_CONFIG, getPlayerUrl, PLAYER_PROVIDERS, VIDFAST_CONFIG, VIDLINK_ORIGIN, type PlayerProviderId } from '../constants';
 import type { TVShow } from '../types/media';
 
 interface TVShowDetailsProps {
@@ -25,6 +25,7 @@ export const TVShowDetails: React.FC<TVShowDetailsProps> = ({ showId, onBack }) 
   const urlParams = new URLSearchParams(window.location.search);
   const [selectedSeason, setSelectedSeason] = useState(parseInt(urlParams.get('season') || '1'));
   const [selectedEpisode, setSelectedEpisode] = useState(parseInt(urlParams.get('episode') || '1'));
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerProviderId>('vidfast');
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const { currentUser } = useAuth();
@@ -64,9 +65,18 @@ export const TVShowDetails: React.FC<TVShowDetailsProps> = ({ showId, onBack }) 
     window.history.replaceState({}, '', url.toString());
   }, [selectedSeason, selectedEpisode]);
 
-  // VidFast Watch Progress Tracking
+  // Player progress tracking (VidFast + VidLink postMessage events)
   useEffect(() => {
-    const handleVidFastMessage = (event: MessageEvent) => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin === VIDLINK_ORIGIN) {
+        if (event.data?.type === 'MEDIA_DATA') {
+          const mediaData = event.data.data;
+          localStorage.setItem('vidLinkTVProgress', JSON.stringify(mediaData));
+          logger.debug('VidLink Progress Saved:', mediaData);
+        }
+        return;
+      }
+
       if (!(VIDFAST_CONFIG.origins as readonly string[]).includes(event.origin)) return;
 
       if (event.data?.type === 'MEDIA_DATA') {
@@ -81,10 +91,10 @@ export const TVShowDetails: React.FC<TVShowDetailsProps> = ({ showId, onBack }) 
       }
     };
 
-    window.addEventListener('message', handleVidFastMessage);
+    window.addEventListener('message', handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleVidFastMessage);
+      window.removeEventListener('message', handleMessage);
     };
   }, []);
 
@@ -343,19 +353,39 @@ export const TVShowDetails: React.FC<TVShowDetailsProps> = ({ showId, onBack }) 
             className="mb-10 lg:mb-14 glass rounded-3xl overflow-hidden shadow-card"
           >
             {/* Player Header */}
-            <div className="p-5 sm:p-6 border-b border-white/[0.06]">
-              <p className="eyebrow mb-1">Now playing</p>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">{tvShow.title}</h2>
-              <p className="text-white/45 text-sm mt-1.5">
-                Season {selectedSeason} • Episode {selectedEpisode}
-                {currentEpisodeName && ` • ${currentEpisodeName}`}
-              </p>
+            <div className="p-5 sm:p-6 border-b border-white/[0.06] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div>
+                <p className="eyebrow mb-1">Now playing</p>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">{tvShow.title}</h2>
+                <p className="text-white/45 text-sm mt-1.5">
+                  Season {selectedSeason} • Episode {selectedEpisode}
+                  {currentEpisodeName && ` • ${currentEpisodeName}`}
+                </p>
+              </div>
+
+              {/* Provider switcher */}
+              <div className="flex items-center gap-1 glass rounded-xl p-1 self-start">
+                {PLAYER_PROVIDERS.map((provider) => (
+                  <button
+                    key={provider.id}
+                    onClick={() => setSelectedPlayer(provider.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                      selectedPlayer === provider.id
+                        ? 'bg-brand text-white shadow-glow-sm'
+                        : 'text-white/55 hover:text-white'
+                    }`}
+                  >
+                    {provider.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* VidFast Player */}
+            {/* Player */}
             <div className="relative w-full aspect-video bg-black">
               <iframe
-                src={getVidFastTvUrl(tvShow.id, selectedSeason, selectedEpisode)}
+                key={selectedPlayer}
+                src={getPlayerUrl(selectedPlayer, 'tv', tvShow.id, selectedSeason, selectedEpisode)}
                 className="absolute top-0 left-0 w-full h-full"
                 frameBorder="0"
                 allowFullScreen
@@ -367,9 +397,11 @@ export const TVShowDetails: React.FC<TVShowDetailsProps> = ({ showId, onBack }) 
             <div className="px-5 py-3.5 border-t border-white/[0.06] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-white/70 text-sm">Streaming on VidFast</span>
+                <span className="text-white/70 text-sm">
+                  Streaming on {PLAYER_PROVIDERS.find(p => p.id === selectedPlayer)?.label}
+                </span>
               </div>
-              <span className="text-white/35 text-xs hidden sm:block">Progress is saved automatically</span>
+              <span className="text-white/35 text-xs hidden sm:block">Switch providers if one doesn't work</span>
             </div>
           </motion.div>
 

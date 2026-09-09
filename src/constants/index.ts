@@ -61,6 +61,78 @@ export const getVidFastTvUrl = (
   theme = '8B5CF6'
 ) => `${VIDFAST_CONFIG.baseUrl}/tv/${tmdbId}/${season}/${episode}?autoPlay=true&theme=${theme}`;
 
+// ---------- Streaming providers ----------
+// VidFast is the default player; the rest are user-switchable fallbacks.
+
+export type PlayerProviderId = 'vidfast' | 'vidlink' | 'embed-api' | 'vidsrc';
+
+export const PLAYER_PROVIDERS: { id: PlayerProviderId; label: string }[] = [
+  { id: 'vidfast', label: 'VidFast' },
+  { id: 'vidlink', label: 'VidLink' },
+  { id: 'embed-api', label: 'Embed API' },
+  { id: 'vidsrc', label: 'VidSrc' },
+];
+
+export const VIDLINK_ORIGIN = 'https://vidlink.pro';
+
+export const getPlayerUrl = (
+  provider: PlayerProviderId,
+  mediaType: 'movie' | 'tv',
+  tmdbId: number | string,
+  season = 1,
+  episode = 1,
+): string => {
+  if (provider === 'vidfast') {
+    return mediaType === 'movie'
+      ? getVidFastMovieUrl(tmdbId)
+      : getVidFastTvUrl(tmdbId, season, episode);
+  }
+
+  if (provider === 'vidlink') {
+    const params = new URLSearchParams({
+      primaryColor: '22D3EE',
+      secondaryColor: '818CF8',
+      iconColor: '22D3EE',
+      icons: 'vid',
+      title: 'true',
+      poster: 'true',
+      autoplay: mediaType === 'tv' ? 'true' : 'false',
+      nextbutton: mediaType === 'tv' ? 'true' : 'false',
+      player: 'default',
+    });
+    // Resume from VidLink's own saved progress when available
+    try {
+      const saved = localStorage.getItem(
+        mediaType === 'movie' ? 'vidLinkProgress' : 'vidLinkTVProgress'
+      );
+      if (saved) {
+        const data = JSON.parse(saved);
+        const entry =
+          mediaType === 'movie' ? data[tmdbId] : data[`${tmdbId}-${season}-${episode}`];
+        const watched = Math.floor(entry?.progress?.watched ?? 0);
+        if (watched > 0) params.set('startAt', String(watched));
+      }
+    } catch {
+      // malformed progress data — start from the beginning
+    }
+    const path =
+      mediaType === 'movie'
+        ? `movie/${tmdbId}`
+        : `tv/${tmdbId}/${season}/${episode}`;
+    return `https://vidlink.pro/${path}?${params.toString()}`;
+  }
+
+  if (provider === 'embed-api') {
+    return mediaType === 'movie'
+      ? `https://player.embed-api.stream/?id=${tmdbId}&type=movie`
+      : `https://player.embed-api.stream/?id=${tmdbId}&s=${season}&e=${episode}`;
+  }
+
+  return mediaType === 'movie'
+    ? `https://vidsrc.icu/embed/movie/${tmdbId}`
+    : `https://vidsrc.icu/embed/tv/${tmdbId}/${season}/${episode}`;
+};
+
 // Pagination
 export const PAGINATION = {
   defaultPageSize: 20,

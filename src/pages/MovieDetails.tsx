@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useUserData } from '../hooks/useUserData';
 import { AuthModal } from '../components/auth/AuthModal';
 import { logger } from '../utils';
-import { getVidFastMovieUrl, VIDFAST_CONFIG } from '../constants';
+import { getPlayerUrl, PLAYER_PROVIDERS, VIDFAST_CONFIG, VIDLINK_ORIGIN, type PlayerProviderId } from '../constants';
 
 interface MovieDetailsProps {
   movieId: string;
@@ -19,6 +19,7 @@ interface MovieDetailsProps {
 }
 
 export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, onBack }) => {
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerProviderId>('vidfast');
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const { currentUser } = useAuth();
@@ -37,9 +38,18 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, onBack }) =
   const isInWatchlist = currentUser ? checkIsInWatchlist(parseInt(movieId)) : false;
   const isLiked = currentUser ? checkIsInFavorites(parseInt(movieId)) : false;
 
-  // VidFast Watch Progress Tracking
+  // Player progress tracking (VidFast + VidLink postMessage events)
   useEffect(() => {
-    const handleVidFastMessage = (event: MessageEvent) => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin === VIDLINK_ORIGIN) {
+        if (event.data?.type === 'MEDIA_DATA') {
+          const mediaData = event.data.data;
+          localStorage.setItem('vidLinkProgress', JSON.stringify(mediaData));
+          logger.debug('VidLink Progress Saved:', mediaData);
+        }
+        return;
+      }
+
       if (!(VIDFAST_CONFIG.origins as readonly string[]).includes(event.origin)) return;
 
       if (event.data?.type === 'MEDIA_DATA') {
@@ -54,10 +64,10 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, onBack }) =
       }
     };
 
-    window.addEventListener('message', handleVidFastMessage);
+    window.addEventListener('message', handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleVidFastMessage);
+      window.removeEventListener('message', handleMessage);
     };
   }, []);
 
@@ -309,20 +319,40 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, onBack }) =
       <div id="content-section" className="relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
           <div className="space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl glass flex items-center justify-center">
-                <Play size={15} className="text-cyan-300" fill="currentColor" />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl glass flex items-center justify-center">
+                  <Play size={15} className="text-cyan-300" fill="currentColor" />
+                </div>
+                <div>
+                  <p className="eyebrow mb-0.5">Now playing</p>
+                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">{movie.title}</h2>
+                </div>
               </div>
-              <div>
-                <p className="eyebrow mb-0.5">Now playing</p>
-                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">{movie.title}</h2>
+
+              {/* Provider switcher */}
+              <div className="flex items-center gap-1 glass rounded-xl p-1 self-start sm:self-auto">
+                {PLAYER_PROVIDERS.map((provider) => (
+                  <button
+                    key={provider.id}
+                    onClick={() => setSelectedPlayer(provider.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                      selectedPlayer === provider.id
+                        ? 'bg-brand text-white shadow-glow-sm'
+                        : 'text-white/55 hover:text-white'
+                    }`}
+                  >
+                    {provider.label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* VidFast Player */}
+            {/* Player */}
             <div className="relative w-full aspect-video bg-black rounded-2xl sm:rounded-3xl overflow-hidden ring-1 ring-white/10 shadow-card">
               <iframe
-                src={getVidFastMovieUrl(movie.id)}
+                key={selectedPlayer}
+                src={getPlayerUrl(selectedPlayer, 'movie', movie.id)}
                 className="absolute top-0 left-0 w-full h-full"
                 frameBorder="0"
                 allowFullScreen
@@ -333,9 +363,11 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieId, onBack }) =
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glass rounded-2xl px-5 py-4">
               <div className="flex items-center gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-white/80 text-sm font-medium">Streaming on VidFast</span>
+                <span className="text-white/80 text-sm font-medium">
+                  Streaming on {PLAYER_PROVIDERS.find(p => p.id === selectedPlayer)?.label}
+                </span>
               </div>
-              <span className="text-white/40 text-xs">Progress is saved automatically as you watch</span>
+              <span className="text-white/40 text-xs">Switch providers if one doesn't work</span>
             </div>
           </div>
         </div>
